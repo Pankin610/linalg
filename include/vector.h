@@ -1,6 +1,9 @@
 // the linear algebra's Vector class
 #include <iostream>
 #include <vector>
+#include <algorithm>
+
+namespace linalg {
 
 template<typename T>
 class Vector {
@@ -61,6 +64,56 @@ class Vector {
   friend Vector<T> operator-(const Vector<T>& vec, const Vector<T>& other);
   friend Vector<T> operator*(const Vector<T>& vec, const Vector<T>& other);
 };
+
+template<typename T>
+T Vector<T>::scalarMultiply(const Vector<T>& other) const {
+  _checkVectorSize(other);
+
+  T ans = other._values[0] * _values[0];
+  for (size_t i = 1; i < size(); i++) {
+    ans += other._values[i] * _values[i];
+  }
+  return ans;
+} 
+
+template<typename T>
+Vector<T>& Vector<T>::unapplyPermute(std::vector<int> p) {
+  if (p.size() != size()) {
+    throw std::runtime_error("Permutation size different from vector size.");
+  }
+  for (int i = 0; i < size(); i++) {
+    while(p[i] != i) {
+      std::swap(_values[p[i]], _values[p[p[i]]]);
+      std::swap(p[i], p[p[i]]);
+    }
+  }
+  return *this;
+}
+
+template<typename T>
+T Vector<T>::getLength() const {
+  T len = _values[0] * _values[0];
+  for (int i = 1; i < size(); i++) {
+    len += _values[i] * _values[i];
+  }
+  return sqrt(len);
+}
+
+template<typename T>
+Vector<T>& Vector<T>::normalize() {
+  T len = getLength();
+  for (int i = 0; i < size(); i++) {
+    _values[i] /= len;
+  }
+  return *this;
+}
+
+template<typename T>
+Vector<T> Vector<T>::getProjection(const Vector<T>& other) const {
+  _checkVectorSize(other);
+
+  return (*this) * (scalarMultiply(other) / scalarMultiply(*this));
+}
 
 // Vector operators
 template<typename T>
@@ -146,4 +199,6 @@ std::ostream& operator<<(std::ostream& st, const Vector<T>& v) {
     st << v[i] << ' ';
   }
   return st;
+}
+
 }
