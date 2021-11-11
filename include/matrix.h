@@ -8,46 +8,46 @@ namespace linalg {
 
 template<typename T>
 class Matrix {
-    std::vector<Vector<T>> _vectors;
-    int _rows;
-    int _cols;
+  std::vector<Vector<T>> _vectors;
+  int _rows;
+  int _cols;
 
-  public:
-    Matrix(int n, int m) : _vectors(n, Vector<T>(m)), _rows(n), _cols(m) {}
-    Matrix(int n, int m, T def) : _vectors(n, Vector<T>(m, def)), _rows(n), _cols(m) {}
+ public:
+  Matrix(int n, int m) : _vectors(n, Vector<T>(m)), _rows(n), _cols(m) {}
+  Matrix(int n, int m, T def) : _vectors(n, Vector<T>(m, def)), _rows(n), _cols(m) {}
 
-    Matrix(const Matrix& other) = default;
-    Matrix(Matrix&& other) = default;
+  Matrix(const Matrix& other) = default;
+  Matrix(Matrix&& other) = default;
 
-    Matrix& operator=(const Matrix& other) {
-        _vectors = other._vectors;
-        _rows = other._rows;
-        _cols = other._cols;
-    }
+  Matrix& operator=(const Matrix& other) {
+    _vectors = other._vectors;
+    _rows = other._rows;
+    _cols = other._cols;
+  }
 
-    int rows() const {
-        return _rows;
-    }
-    int cols() const {
-        return _cols;
-    }
+  int rows() const {
+    return _rows;
+  }
+  int cols() const {
+    return _cols;
+  }
 
-    Vector<T>& operator[](size_t row_ind) {
-        checkIndexBounds(row_ind, rows());
-        return _vectors[row_ind];
-    }
-    const Vector<T>& operator[](size_t row_ind) const {
-        checkIndexBounds(row_ind, rows());
-        return _vectors[row_ind];
-    }
+  Vector<T>& operator[](size_t row_ind) {
+    checkIndexBounds(row_ind, rows());
+    return _vectors[row_ind];
+  }
+  const Vector<T>& operator[](size_t row_ind) const {
+    checkIndexBounds(row_ind, rows());
+    return _vectors[row_ind];
+  }
 
-    Vector<T> multiply(const Vector<T>& vector) const; 
+  Vector<T> multiply(const Vector<T>& vector) const; 
 
-    Matrix<T> multiply(const Matrix<T>& mat) const; 
+  Matrix<T> multiply(const Matrix<T>& mat) const; 
 
-    bool isSquare() const {
-        return rows() == cols();
-    }
+  bool isSquare() const {
+    return rows() == cols();
+  }
 };
 
 template<typename T>
