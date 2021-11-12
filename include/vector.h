@@ -26,8 +26,7 @@ class Vector {
   }
 
   T& operator[](size_t ind) {
-    checkIndexBounds(ind, size());
-    return _values[ind];
+    return _values.at(ind);
   }
   const T& operator[](size_t ind) const {
     checkIndexBounds(ind, size());
