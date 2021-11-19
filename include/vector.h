@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <exception>
 
 namespace linalg {
 
@@ -31,8 +32,7 @@ class Vector {
     return _values.at(ind);
   }
   const T& operator[](size_t ind) const {
-    checkIndexBounds(ind, size());
-    return _values[ind];
+    return _values.at(ind);
   }
 
   size_t size() const {
@@ -63,8 +63,14 @@ class Vector {
 
   friend Vector<T> operator+(const Vector<T>& vec, const Vector<T>& other);
   friend Vector<T> operator-(const Vector<T>& vec, const Vector<T>& other);
-  friend Vector<T> operator*(const Vector<T>& vec, const Vector<T>& other);
 };
+
+template<typename T>
+void Vector<T>::_checkVectorSize(const Vector<T>& other) const {
+  if (other.size() != size()) {
+    throw std::runtime_error("Vector sized don't correspond.");
+  }
+}
 
 template<typename T>
 T Vector<T>::scalarMultiply(const Vector<T>& other) const {
