@@ -1,4 +1,6 @@
 // the linear algebra's Vector class
+#pragma once
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
