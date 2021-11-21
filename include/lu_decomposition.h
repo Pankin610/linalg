@@ -14,14 +14,11 @@ class LUDecomposition {
   Matrix<T> _U;
   std::vector<int> _p;
 
-  void subtractRow(Vector<T>& to_sub, Vector<T>& sub_from, T coef);
-
   void getPivotingPermutation();
 
   Vector<T> solveLowerTriangle(
     const Matrix<T>& mat, 
     const Vector<T>& res_vec) const;
-  
 
   Vector<T> solveUpperTriangle(
     const Matrix<T>& mat, 
@@ -38,13 +35,6 @@ class LUDecomposition {
     return solveUpperTriangle(_U, solveLowerTriangle(_L, res_vec)).unapplyPermute(_p);
   }
 };
-
-template<typename T>
-void LUDecomposition<T>::subtractRow(Vector<T>& to_sub, Vector<T>& sub_from, T coef) {
-  for (int i = 0; i < to_sub.size(); i++) {
-    sub_from[i] -= to_sub[i] * coef;
-  }
-}
 
 template<typename T>
 void LUDecomposition<T>::getPivotingPermutation() {
