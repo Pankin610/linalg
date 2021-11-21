@@ -9,14 +9,16 @@ set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gtest)
 
 add_executable(
-  vector_test
+  unit_tests
+  matrix_test.cpp
   vector_test.cpp
+  lu_decomposition_test.cpp
 )
 target_link_libraries(
-  vector_test
+  unit_tests
   gtest_main
 )
 
 # automatic discovery of unit tests
 include(GoogleTest)
-gtest_discover_tests(vector_test)
+gtest_discover_tests(unit_tests)

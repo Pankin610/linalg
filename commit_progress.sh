@@ -7,8 +7,8 @@ do
     do
         git add ./$dir/*$ext
     done
+    git add ./$dir/CMakeLists.txt
 done
-git add ./*CMakeLists.txt
 git add ./README.md
 git add ./*.sh
 
