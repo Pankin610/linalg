@@ -52,13 +52,13 @@ class Vector {
 
   Vector<T>& operator*=(const T& scalar);
   Vector<T>& operator/=(const T& scalar);
-  Vector<T> operator*(const T& scalar);
-  Vector<T> operator/(const T& scalar);
+  Vector<T> operator*(const T& scalar) const;
+  Vector<T> operator/(const T& scalar) const;
 
   Vector<T>& operator+=(const Vector<T>& other);
   Vector<T>& operator-=(const Vector<T>& other);
-  Vector<T> operator+(const Vector<T>& other);
-  Vector<T> operator-(const Vector<T>& other);
+  Vector<T> operator+(const Vector<T>& other) const;
+  Vector<T> operator-(const Vector<T>& other) const;
 };
 
 template<typename T>
@@ -123,14 +123,14 @@ Vector<T>& Vector<T>::operator/=(const T& scalar) {
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator*(const T& scalar) {
+Vector<T> Vector<T>::operator*(const T& scalar) const {
   Vector<T> res = *this;
   res *= scalar;
   return res;
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator/(const T& scalar) {
+Vector<T> Vector<T>::operator/(const T& scalar) const {
   Vector<T> res = *this;
   res /= scalar;
   return res;
@@ -155,7 +155,7 @@ Vector<T>& Vector<T>::operator-=(const Vector<T>& other) {
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator+(const Vector<T>& other) {
+Vector<T> Vector<T>::operator+(const Vector<T>& other) const {
   _checkVectorSize(other);
   Vector<T> res = *this;
   res += other;
@@ -163,7 +163,7 @@ Vector<T> Vector<T>::operator+(const Vector<T>& other) {
 }
 
 template<typename T>
-Vector<T> Vector<T>::operator-(const Vector<T>& other) {
+Vector<T> Vector<T>::operator-(const Vector<T>& other) const {
   _checkVectorSize(other);
   Vector<T> res = *this;
   res -= other;
