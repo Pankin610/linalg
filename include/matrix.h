@@ -18,6 +18,9 @@ class Matrix {
   Matrix(int n, int m) : _vectors(n, Vector<T>(m)), _rows(n), _cols(m) {}
   Matrix(int n, int m, T def) : _vectors(n, Vector<T>(m, def)), _rows(n), _cols(m) {}
 
+  Matrix(std::initializer_list<Vector<T>> init_list);
+  Matrix(std::initializer_list<std::initializer_list<T>> init_list);
+
   Matrix(const Matrix& other) = default;
   Matrix(Matrix&& other) = default;
 
@@ -35,12 +38,10 @@ class Matrix {
   }
 
   Vector<T>& operator[](size_t row_ind) {
-    checkIndexBounds(row_ind, rows());
-    return _vectors[row_ind];
+    return _vectors.at(row_ind);
   }
   const Vector<T>& operator[](size_t row_ind) const {
-    checkIndexBounds(row_ind, rows());
-    return _vectors[row_ind];
+    return _vectors.at(row_ind);
   }
 
   Vector<T> multiply(const Vector<T>& vector) const; 
@@ -51,6 +52,22 @@ class Matrix {
     return rows() == cols();
   }
 };
+
+template<typename T>
+Matrix<T>::Matrix(std::initializer_list<Vector<T>> init_list): _vectors(init_list) {
+  _rows = _vectors.size();
+  _cols = _vectors[0].size();
+}
+
+template<typename T>
+Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init_list) {
+  for (auto& vec_list : init_list) {
+    _vectors.emplace_back(vec_list);
+  }
+  _rows = _vectors.size();
+  _cols = _vectors[0].size();
+}
+
 
 template<typename T>
 Vector<T> Matrix<T>::multiply(const Vector<T>& vector) const {

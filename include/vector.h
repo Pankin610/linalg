@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <exception>
+#include <cmath>
 
 namespace linalg {
 
@@ -17,6 +18,8 @@ class Vector {
  public:
   // TODO check the vector doesn't have length 0
   explicit Vector(std::vector<T> _values): _values(std::move(_values)) {}
+  Vector(std::initializer_list<T> init_list): _values(init_list) {}
+
   Vector(const Vector<T>& other) = default;
   Vector(Vector<T>&& other) = default;
 
@@ -39,7 +42,7 @@ class Vector {
     return _values.size();
   }
 
-  T scalarMultiply(const Vector<T>& other) const; 
+  T innerProduct(const Vector<T>& other) const; 
 
   Vector<T>& unapplyPermute(std::vector<int> p); 
 
@@ -49,20 +52,15 @@ class Vector {
 
   Vector<T> getProjection(const Vector<T>& other) const; 
 
-  friend Vector<T>& operator+=(Vector<T>& vec, const T& scalar);
-  friend Vector<T>& operator-=(Vector<T>& vec, const T& scalar);
-  friend Vector<T>& operator*=(Vector<T>& vec, const T& scalar);
+  Vector<T>& operator*=(const T& scalar);
+  Vector<T>& operator/=(const T& scalar);
+  Vector<T> operator*(const T& scalar);
+  Vector<T> operator/(const T& scalar);
 
-  friend Vector<T> operator+(const Vector<T>& vec, const T& scalar);
-  friend Vector<T> operator-(const Vector<T>& vec, const T& scalar);
-  friend Vector<T> operator*(const Vector<T>& vec, const T& scalar);
-
-  friend Vector<T>& operator+=(Vector<T>& vec, const Vector<T>& other);
-  friend Vector<T>& operator-=(Vector<T>& vec, const Vector<T>& other);
-  friend Vector<T>& operator*=(Vector<T>& vec, const Vector<T>& other);
-
-  friend Vector<T> operator+(const Vector<T>& vec, const Vector<T>& other);
-  friend Vector<T> operator-(const Vector<T>& vec, const Vector<T>& other);
+  Vector<T>& operator+=(const Vector<T>& other);
+  Vector<T>& operator-=(const Vector<T>& other);
+  Vector<T> operator+(const Vector<T>& other);
+  Vector<T> operator-(const Vector<T>& other);
 };
 
 template<typename T>
@@ -73,7 +71,7 @@ void Vector<T>::_checkVectorSize(const Vector<T>& other) const {
 }
 
 template<typename T>
-T Vector<T>::scalarMultiply(const Vector<T>& other) const {
+T Vector<T>::innerProduct(const Vector<T>& other) const {
   _checkVectorSize(other);
 
   T ans = other._values[0] * _values[0];
@@ -119,83 +117,71 @@ template<typename T>
 Vector<T> Vector<T>::getProjection(const Vector<T>& other) const {
   _checkVectorSize(other);
 
-  return (*this) * (scalarMultiply(other) / scalarMultiply(*this));
+  return (*this) * (innerProduct(other) / innerProduct(*this));
 }
 
 // Vector operators
-template<typename T>
-Vector<T>& operator+=(Vector<T>& vec, const T& scalar) {
-  for (T& val : vec._values) {
-    val += scalar;
-  }
-  return vec;
-}
 
 template<typename T>
-Vector<T>& operator*=(Vector<T>& vec, const T& scalar) {
-  for (T& val : vec._values) {
+Vector<T>& Vector<T>::operator*=(const T& scalar) {
+  for (T& val : _values) {
     val *= scalar;
   }
-  return vec;
+  return *this;
 }
 
 template<typename T>
-Vector<T>& operator/=(Vector<T>& vec, const T& scalar) {
-  for (T& val : vec._values) {
+Vector<T>& Vector<T>::operator/=(const T& scalar) {
+  for (T& val : _values) {
     val /= scalar;
   }
-  return vec;
+  return *this;
 }
 
 template<typename T>
-Vector<T> operator+(const Vector<T>& vec, const T& scalar) {
-  Vector<T> res = vec;
-  res += scalar;
-  return res;
-}
-
-template<typename T>
-Vector<T> operator*(const Vector<T>& vec, const T& scalar) {
-  Vector<T> res = vec;
+Vector<T> Vector<T>::operator*(const T& scalar) {
+  Vector<T> res = *this;
   res *= scalar;
   return res;
 }
 
 template<typename T>
-Vector<T> operator/(const Vector<T>& vec, const T& scalar) {
-  Vector<T> res = vec;
+Vector<T> Vector<T>::operator/(const T& scalar) {
+  Vector<T> res = *this;
   res /= scalar;
   return res;
 }
 
 template<typename T>
-Vector<T>& operator+=(Vector<T>& vec, const Vector<T>& other) {
-  vec._checkVectorSize(other);
-  for (int i = 0; i < vec.size(); i++) {
-    vec._values[i] += other[i];
+Vector<T>& Vector<T>::operator+=(const Vector<T>& other) {
+  _checkVectorSize(other);
+  for (int i = 0; i < size(); i++) {
+    _values[i] += other[i];
   }
-  return vec;
+  return *this;
 }
 
 template<typename T>
-Vector<T>& operator-=(Vector<T>& vec, const Vector<T>& other) {
-  vec._checkVectorSize(other);
-  for (int i = 0; i < vec.size(); i++) {
-    vec._values[i] -= other[i];
+Vector<T>& Vector<T>::operator-=(const Vector<T>& other) {
+  _checkVectorSize(other);
+  for (int i = 0; i < size(); i++) {
+    _values[i] -= other[i];
   }
-  return vec;
+  return *this;
 }
 
 template<typename T>
-Vector<T> operator+(const Vector<T>& vec, const Vector<T>& other) {
-  Vector<T> res = vec;
+Vector<T> Vector<T>::operator+(const Vector<T>& other) {
+  _checkVectorSize(other);
+  Vector<T> res = *this;
   res += other;
   return res;
 }
 
 template<typename T>
-Vector<T> operator-(const Vector<T>& vec, const Vector<T>& other) {
-  Vector<T> res = vec;
+Vector<T> Vector<T>::operator-(const Vector<T>& other) {
+  _checkVectorSize(other);
+  Vector<T> res = *this;
   res -= other;
   return res;
 }
