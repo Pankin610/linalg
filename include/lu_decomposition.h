@@ -16,6 +16,8 @@ class LUDecomposition {
 
   void getPivotingPermutation();
 
+  void unapplyPermute(Vector<T>& vec, std::vector<int> p) const;
+
   Vector<T> solveLowerTriangle(
     const Matrix<T>& mat, 
     const Vector<T>& res_vec) const;
@@ -32,7 +34,10 @@ class LUDecomposition {
   std::vector<int> getPermutation() const { return _p; }
 
   Vector<T> solveForVector(const Vector<T>& res_vec) const {
-    return solveUpperTriangle(_U, solveLowerTriangle(_L, res_vec)).unapplyPermute(_p);
+    auto solv = solveUpperTriangle(_U, solveLowerTriangle(_L, res_vec));
+    unapplyPermute(solv, _p);
+
+    return solv;
   }
 };
 
@@ -57,6 +62,19 @@ void LUDecomposition<T>::getPivotingPermutation() {
     for (int next_row = row + 1; next_row < n; next_row++) {
       T coef = temp[_p[next_row]][row] / temp[_p[row]][row];
       temp[_p[next_row]] -= temp[_p[row]] * coef;
+    }
+  }
+}
+
+template<typename T>
+void LUDecomposition<T>::unapplyPermute(Vector<T>& vec, std::vector<int> p) const {
+  if (p.size() != vec.size()) {
+    throw std::runtime_error("Permutation size different from vector size.");
+  }
+  for (int i = 0; i < vec.size(); i++) {
+    while(p[i] != i) {
+      std::swap(vec[p[i]], vec[p[p[i]]]);
+      std::swap(p[i], p[p[i]]);
     }
   }
 }

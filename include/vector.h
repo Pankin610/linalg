@@ -44,8 +44,6 @@ class Vector {
 
   T innerProduct(const Vector<T>& other) const; 
 
-  Vector<T>& unapplyPermute(std::vector<int> p); 
-
   T getLength() const; 
 
   Vector<T>& normalize(); 
@@ -80,20 +78,6 @@ T Vector<T>::innerProduct(const Vector<T>& other) const {
   }
   return ans;
 } 
-
-template<typename T>
-Vector<T>& Vector<T>::unapplyPermute(std::vector<int> p) {
-  if (p.size() != size()) {
-    throw std::runtime_error("Permutation size different from vector size.");
-  }
-  for (int i = 0; i < size(); i++) {
-    while(p[i] != i) {
-      std::swap(_values[p[i]], _values[p[p[i]]]);
-      std::swap(p[i], p[p[i]]);
-    }
-  }
-  return *this;
-}
 
 template<typename T>
 T Vector<T>::getLength() const {
