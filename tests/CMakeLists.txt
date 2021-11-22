@@ -14,6 +14,7 @@ add_executable(
   vector_test.cpp
   lu_decomposition_test.cpp
   orthogonal_test.cpp
+  eigen_test.cpp
 )
 target_link_libraries(
   unit_tests

@@ -76,7 +76,7 @@ Vector<T> Matrix<T>::multiply(const Vector<T>& vector) const {
   }
   Vector<T> res(vector.size());
   for (int i = 0; i < cols(); i++) {
-    res[i] = _vectors[i].multiply(vector);
+    res[i] = _vectors[i].innerProduct(vector);
   }
   return res;
 }
