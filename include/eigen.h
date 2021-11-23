@@ -28,12 +28,26 @@ T getBiggestEigenValue(
   util::RandomScalarGen<T> rng;
 
   Vector<T> vec = util::getRandomVector<T>(mat.rows(), rng);
+  for (int i = 0; i < 5; i++) {
+    vec = mat.multiply(vec).normalize();
+  }
+
   while(max_iter--) {
     auto new_vec = mat.multiply(vec);
-    T lambda = new_vec[0] / vec[0];
+    T lambda;
+    for (int i = 0; i < vec.size(); i++) {
+      if (util::isNear(new_vec[i], 0.0, tol) || util::isNear(vec[i], 0.0, tol)) {
+        continue;
+      }
+      lambda = new_vec[i] / vec[i];
+      break;
+    }
 
     bool is_eigen = true;
     for (int i = 0; i < vec.size(); i++) {
+      if (util::isNear(new_vec[i], 0.0, tol) || util::isNear(vec[i], 0.0, tol)) {
+        continue;
+      }
       if (!util::isNear(vec[i] * lambda, new_vec[i], tol)) {
         is_eigen = false;
         break;

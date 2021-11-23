@@ -4,6 +4,7 @@ project(linalg)
 
 set(CMAKE_CXX_STANDARD 11)
 
+include_directories(include/util)
 include_directories(include)
 
 enable_testing()
