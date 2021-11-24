@@ -1,4 +1,2 @@
 cmake --build build
-cd build
-ctest
-cd ..
+./build/tests/unit_tests

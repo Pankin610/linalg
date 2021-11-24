@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-TEST(BasicTest, LU_Tests) {
+TEST(LU_Tests, BasicTest) {
     linalg::Matrix<double> mat = {
         {-1.0, 3.0, 1.0},
         {0.0, 1.0, 1.0},

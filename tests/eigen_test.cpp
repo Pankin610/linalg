@@ -2,7 +2,7 @@
 
 #include "eigen.h"
 
-TEST(DiagonalTest, EigenTests) {
+TEST(EigenTests, DiagonalTest) {
   linalg::Matrix<double> mat = {
     {3.0, 0.0, 0.0},
     {0.0, 3.0, 0.0},

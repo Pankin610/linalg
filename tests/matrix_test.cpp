@@ -2,7 +2,7 @@
 #include <exception>
 #include "matrix.h"
 
-TEST(MatrixMult, MatrixTests) {
+TEST(MatrixTests, MatrixMultTest) {
     linalg::Matrix<double> m = {
         {0.0, 0.2, 3.0},
         {5.0, 1.0, 23.0},

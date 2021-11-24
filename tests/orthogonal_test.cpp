@@ -4,7 +4,7 @@
 #include "vector.h"
 #include <vector>
 
-TEST(TwoVectorsTest, OrthogonalTests) {
+TEST(OrthogonalTests, TwoVectorsTest) {
   linalg::Vector<double> a = {0.1, 0.9, 5.0};
   linalg::Vector<double> b = {0.3, 0.8, 12.0};
 
@@ -15,7 +15,7 @@ TEST(TwoVectorsTest, OrthogonalTests) {
   EXPECT_NEAR(orth[0].innerProduct(orth[1]), 0.0, 1e-15);
 }
 
-TEST(BasicTest, OrthogonalTests) {
+TEST(OrthogonalTests, BasicTest) {
   std::vector<linalg::Vector<double>> vectors = {
     {6.000, 8.000, 0.000},
     {10.000, 5.000, 12.000}

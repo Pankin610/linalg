@@ -23,7 +23,7 @@ class Vector {
   Vector(const Vector<T>& other) = default;
   Vector(Vector<T>&& other) = default;
 
-  Vector(int n) : _values(n) {}
+  Vector(int n = 1) : _values(n) {}
   Vector(int n, T def) : _values(n, def) {}
 
   Vector<T>& operator=(const Vector<T>& other) {

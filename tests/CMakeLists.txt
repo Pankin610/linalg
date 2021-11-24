@@ -13,6 +13,7 @@ add_executable(
   matrix_test.cpp
   vector_test.cpp
   lu_decomposition_test.cpp
+  qr_decomposition_test.cpp
   orthogonal_test.cpp
   eigen_test.cpp
 )

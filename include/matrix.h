@@ -15,8 +15,12 @@ class Matrix {
   int _cols;
 
  public:
-  Matrix(int n, int m) : _vectors(n, Vector<T>(m)), _rows(n), _cols(m) {}
+  Matrix(int n = 1, int m = 1) : _vectors(n, Vector<T>(m)), _rows(n), _cols(m) {}
   Matrix(int n, int m, T def) : _vectors(n, Vector<T>(m, def)), _rows(n), _cols(m) {}
+  Matrix(std::vector<Vector<T>> vec) : _vectors(std::move(vec)) { 
+    _rows = _vectors.size();
+    _cols = _vectors[0].size();
+  }
 
   Matrix(std::initializer_list<Vector<T>> init_list);
   Matrix(std::initializer_list<std::initializer_list<T>> init_list);
@@ -37,6 +41,9 @@ class Matrix {
     return _cols;
   }
 
+  std::vector<Vector<T>> getRowVectors() const { return _vectors; }
+  std::vector<Vector<T>> getColVectors() const;
+
   Vector<T>& operator[](size_t row_ind) {
     return _vectors.at(row_ind);
   }
@@ -51,6 +58,8 @@ class Matrix {
   bool isSquare() const {
     return rows() == cols();
   }
+
+  Matrix<T> transposed() const;
 };
 
 template<typename T>
@@ -82,6 +91,18 @@ Vector<T> Matrix<T>::multiply(const Vector<T>& vector) const {
 }
 
 template<typename T>
+std::vector<Vector<T>> Matrix<T>::getColVectors() const {
+  std::vector<Vector<T>> res(cols());
+  for (int j = 0; j < cols(); j++) {
+    res[j] = Vector<T>(rows());
+    for (int i = 0; i < rows(); i++) {
+      res[j][i] = (*this)[i][j];
+    }
+  }
+  return res;
+}
+
+template<typename T>
 Matrix<T> Matrix<T>::multiply(const Matrix<T>& mat) const {
   if (cols() != mat.rows()) {
     throw std::runtime_error("Matrix sides don't coinside for the multiplication.");
@@ -95,6 +116,11 @@ Matrix<T> Matrix<T>::multiply(const Matrix<T>& mat) const {
     }
   }
   return res;
+}
+
+template<typename T>
+Matrix<T> Matrix<T>::transposed() const {
+  return Matrix<T>(getColVectors());
 }
 
 template<typename T>
