@@ -33,4 +33,11 @@ TEST(QR_Tests, BasicTest) {
             }
         }
     }
+
+    auto exp_A = Q.multiply(R);
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            EXPECT_NEAR(exp_A[i][j], mat[i][j], 1e-15);
+        }
+    }
 }
