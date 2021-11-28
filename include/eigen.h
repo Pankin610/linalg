@@ -1,11 +1,13 @@
 #pragma once
 
 #include <exception>
+#include <vector>
 
 #include "matrix.h"
 #include "vector.h"
 #include "rng.h"
 #include "util.h"
+#include "qr_decomposition.h"
 
 namespace linalg::eigen {
 
@@ -64,6 +66,21 @@ T getBiggestEigenValue(
   }
 
   throw NoEigenValueException();
+}
+
+template<typename T>
+std::vector<T> getEigenvalues(const Matrix<T>& mat, int max_iter = 100) {
+  Matrix<T> a = mat;
+  for (int i = 0; i < max_iter; i++) {
+    QRDecomposition<T> qr(a);
+    a = qr.getR().multiply(qr.getQ());
+  }
+
+  std::vector<T> eigen_vals;
+  for (int i = 0; i < a.cols(); i++) {
+    eigen_vals.push_back(a[i][i]);
+  }
+  return eigen_vals;
 }
 
 }

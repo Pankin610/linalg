@@ -32,6 +32,7 @@ class Matrix {
     _vectors = other._vectors;
     _rows = other._rows;
     _cols = other._cols;
+    return *this;
   }
 
   int rows() const {
