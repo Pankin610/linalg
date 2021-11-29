@@ -109,10 +109,13 @@ Matrix<T> Matrix<T>::multiply(const Matrix<T>& mat) const {
     throw std::runtime_error("Matrix sides don't coinside for the multiplication.");
   }
   Matrix<T> res(rows(), mat.cols());
-  for (int i = 0; i < res.rows(); i++) {
-    for (int j = 0; j < res.cols(); j++) {
-      for (int k = 0; k < cols(); k++) {
-        res[i][j] += (*this)[i][k] * mat[k][j];
+  for (int i = 0; i < rows(); i++) {
+    for (int j = 0; j < cols(); j++) {
+      if ((*this)[i][j] == 0.0) {
+        continue;
+      }
+      for (int k = 0; k < res.cols(); k++) {
+        res[i][k] += (*this)[i][j] * mat[j][k];
       }
     }
   }
