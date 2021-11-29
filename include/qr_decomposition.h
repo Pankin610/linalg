@@ -8,17 +8,26 @@ namespace linalg {
 
 template<typename T>
 class QRDecomposition {
-  Matrix<T> _Q_T;
-  Matrix<T> _R;
+ protected:
+  QRDecomposition() {}
  public:
-  QRDecomposition(const Matrix<T>& mat);
-
-  Matrix<T> getQ() { return _Q_T.transposed(); }
-  Matrix<T> getR() { return _R; }
+  virtual Matrix<T> getQ() {}; 
+  virtual Matrix<T> getR() {};
 };
 
 template<typename T>
-QRDecomposition<T>::QRDecomposition(const Matrix<T>& mat) :
+class GramianSchmidtQR : public QRDecomposition<T> {
+  Matrix<T> _Q_T;
+  Matrix<T> _R;
+ public:
+  GramianSchmidtQR(const Matrix<T>& mat);
+
+  Matrix<T> getQ() override { return _Q_T.transposed(); }
+  Matrix<T> getR() override { return _R; }
+};
+
+template<typename T>
+GramianSchmidtQR<T>::GramianSchmidtQR(const Matrix<T>& mat) :
   _Q_T(orthogonal::getOrthonormalBasis(mat.getColVectors())),
   _R(_Q_T.multiply(mat)) {}
 

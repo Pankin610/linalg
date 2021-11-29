@@ -12,7 +12,7 @@ TEST(QR_Tests, BasicTest) {
         {0.0, 1.0, 1.0},
         {2.0, 1.0, -1.0}
     };
-    linalg::QRDecomposition<double> decomp(mat);
+    linalg::GramianSchmidtQR<double> decomp(mat);
     
     auto R = decomp.getR();
     for (int i = 0; i < 3; i++) {

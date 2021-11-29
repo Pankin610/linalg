@@ -72,7 +72,7 @@ template<typename T>
 std::vector<T> getEigenvalues(const Matrix<T>& mat, int max_iter = 100) {
   Matrix<T> a = mat;
   for (int i = 0; i < max_iter; i++) {
-    QRDecomposition<T> qr(a);
+    GramianSchmidtQR<T> qr(a);
     a = qr.getR().multiply(qr.getQ());
   }
 
