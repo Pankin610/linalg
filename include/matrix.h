@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 #include "vector.h"
 
@@ -27,6 +28,8 @@ class Matrix {
 
   Matrix(const Matrix& other) = default;
   Matrix(Matrix&& other) = default;
+
+  static Matrix<T> identity(int n, int m, T one = 1.0);
 
   Matrix& operator=(const Matrix& other) {
     _vectors = other._vectors;
@@ -78,6 +81,14 @@ Matrix<T>::Matrix(std::initializer_list<std::initializer_list<T>> init_list) {
   _cols = _vectors[0].size();
 }
 
+template<typename T>
+Matrix<T> Matrix<T>::identity(int n, int m, T one) {
+  Matrix<T> mat(n, m, 0.0);
+  for (int i = 0; i < std::min(n, m); i++) {
+    mat[i][i] = one;
+  }
+  return mat;
+}
 
 template<typename T>
 Vector<T> Matrix<T>::multiply(const Vector<T>& vector) const {
