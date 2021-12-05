@@ -9,8 +9,8 @@
 
 void checkQR(
   linalg::QRDecomposition<double>* decomp, 
-  const linalg::Matrix<double>& mat
-) {
+  const linalg::Matrix<double>& mat)
+{
   auto R = decomp->getR();
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < i; j++) {
