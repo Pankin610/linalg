@@ -1,6 +1,7 @@
 #pragma once
 
 #include <random>
+#include <vector>
 
 namespace linalg::util {
   
@@ -38,6 +39,18 @@ Vector<T> getRandomVector(int n, RandomScalarGen<T>& gen) {
     vec[i] = gen.get();
   }
   return vec;
+}
+
+template<typename T = double>
+Matrix<T> getRandomMatrix(int n, int m, RandomScalarGen<T>& gen) {
+  std::vector<Vector<T>> rows;
+  rows.reserve(n);
+
+  for (int i = 0; i < n; i++) {
+    rows.push_back(getRandomVector(m, gen));
+  }
+
+  return Matrix<T>(rows);
 }
 
 }
