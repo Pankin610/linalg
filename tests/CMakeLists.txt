@@ -16,6 +16,7 @@ add_executable(
   qr_decomposition_test.cpp
   orthogonal_test.cpp
   eigen_test.cpp
+  concurrency_tests.cpp
 )
 target_link_libraries(
   unit_tests
