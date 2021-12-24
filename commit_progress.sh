@@ -1,4 +1,4 @@
-WORKING_DIRS="src tests include"
+WORKING_DIRS="src tests include include/util"
 FILE_EXTENSIONS=".cpp .h"
 
 for dir in $WORKING_DIRS

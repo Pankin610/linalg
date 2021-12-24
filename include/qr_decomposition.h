@@ -5,6 +5,10 @@
 #include "orthogonal.h"
 #include "util.h"
 
+#include <mutex>
+#include <thread>
+#include <vector>
+
 namespace linalg {
 
 template<typename T>
@@ -75,6 +79,12 @@ class SimpleGivensRotations : public GivensRotationsQR<T> {
 };
 
 template<typename T>
+class ParallelGivensRotations : public GivensRotationsQR<T> {
+ public:
+  ParallelGivensRotations(const Matrix<T>& mat);
+};
+
+template<typename T>
 GramianSchmidtQR<T>::GramianSchmidtQR(const Matrix<T>& mat) :
   _Q_T(orthogonal::getOrthonormalBasis(mat.getColVectors())),
   _R(_Q_T.multiply(mat)) {}
@@ -121,7 +131,7 @@ SimpleGivensRotations<T>::SimpleGivensRotations(const Matrix<T>& mat) :
 
   for (int j = 0; j < mat.cols(); j++) {
     Matrix<T>& R = this->getCurR();
-    for (int i = R.cols() - 1; i > j; i--) {
+    for (int i = R.rows() - 1; i > j; i--) {
       if (util::isNear(R[i][j], 0.0, 1e-14)) {
         continue;
       }
@@ -130,6 +140,45 @@ SimpleGivensRotations<T>::SimpleGivensRotations(const Matrix<T>& mat) :
       this->applyRotationOnR(rotation);
       rotation_list.emplace_back(std::move(rotation));
     }
+  }
+  
+  std::reverse(rotation_list.begin(), rotation_list.end());
+  for (auto& rot : rotation_list) {
+    this->applyRotationOnQ(rot);
+  }
+}
+
+template<typename T>
+ParallelGivensRotations<T>::ParallelGivensRotations(const Matrix<T>& mat) : 
+  GivensRotationsQR<T>(mat) 
+{
+  typedef typename GivensRotationsQR<T>::GivensRotation GivensRotation;
+  std::vector<GivensRotation> rotation_list;
+  Matrix<T>& R = this->getCurR();
+
+  std::vector<std::mutex> r_mutexes(R.rows());
+  std::mutex rotation_list_mutex;
+  std::vector<std::thread> rotation_threads;
+
+  // this doesn't work yet
+  for (int j = 0; j < mat.cols(); j++) {
+    rotation_threads.emplace_back([&, j](){
+      for (int i = R.rows() - 1; i > j; i--) {
+        if (util::isNear(R[i][j], 0.0, 1e-14)) {
+          continue;
+        }
+
+        std::scoped_lock rows_lock(r_mutexes[i - 1], r_mutexes[i]);
+        auto rotation = GivensRotation(R, i, j);
+        this->applyRotationOnR(rotation);
+        std::unique_lock list_lock(rotation_list_mutex);
+        rotation_list.emplace_back(std::move(rotation));
+      }
+    });    
+  }
+
+  for (auto& rotation_thread : rotation_threads) {
+    rotation_thread.join();
   }
   
   std::reverse(rotation_list.begin(), rotation_list.end());

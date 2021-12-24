@@ -12,16 +12,16 @@ void checkQR(
   const linalg::Matrix<double>& mat)
 {
   auto R = decomp->getR();
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < i; j++) {
+  for (int i = 0; i < R.rows(); i++) {
+    for (int j = 0; j < std::min(i, R.cols()); j++) {
       EXPECT_NEAR(R[i][j], 0.0, 1e-15);
     }
   }
 
   auto Q = decomp->getQ();
   auto I = Q.multiply(Q.transposed());
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
+  for (int i = 0; i < I.rows(); i++) {
+    for (int j = 0; j < I.cols(); j++) {
       if (i == j) {
         EXPECT_NEAR(I[i][j], 1.0, 1e-15);
       }
@@ -32,8 +32,8 @@ void checkQR(
   }
 
   auto exp_A = Q.multiply(R);
-  for (int i = 0; i < 3; i++) {
-    for (int j = 0; j < 3; j++) {
+  for (int i = 0; i < mat.rows(); i++) {
+    for (int j = 0; j < mat.cols(); j++) {
       EXPECT_NEAR(exp_A[i][j], mat[i][j], 1e-15);
     }
   }
@@ -51,7 +51,7 @@ TEST(QR_Tests, BasicTest) {
 
 // an example from a paper: 
 // https://www.math.usm.edu/lambers/mat610/sum10/lecture9.pdf
-TEST(QR_Tests, GivensTest) {
+TEST(QR_Tests, SimpleGivensTest) {
   linalg::Matrix<double> mat = {
     {0.8147, 0.0975, 0.1576},
     {0.9058, 0.2785, 0.9706},
@@ -73,4 +73,19 @@ TEST(QR_Tests, SparseGivensTest) {
   };
   linalg::SimpleGivensRotations<double> decomp(mat);
   checkQR(&decomp, mat);
+}
+
+TEST(QR_Tests, ParallelGivensTest) {
+  linalg::Matrix<double> mat = {
+    {0.8147, 0.0975, 0.1576},
+    {0.9058, 0.2785, 0.9706},
+    {0.1270, 0.5469, 0.9572},
+    {0.9134, 0.9575, 0.4854},
+    {0.6324, 0.9649, 0.8003}      
+  };
+
+  for (int i = 0; i < 100; i++) {
+    linalg::ParallelGivensRotations<double> decomp(mat);
+    checkQR(&decomp, mat);
+  }
 }
