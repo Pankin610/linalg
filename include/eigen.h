@@ -23,7 +23,7 @@ template<typename T>
 T getBiggestEigenValue(
   const Matrix<T>& mat, 
   int max_iter = 100,
-  T tol = 1e-12) throw(NoEigenValueException)
+  T tol = 1e-12) throw()
 {
   if (!mat.isSquare()) {
     throw std::runtime_error("The matrix isn't square.");

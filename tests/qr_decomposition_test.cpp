@@ -59,6 +59,18 @@ TEST(QR_Tests, GivensTest) {
     {0.9134, 0.9575, 0.4854},
     {0.6324, 0.9649, 0.8003}      
   };
-  linalg::GivensRotationsQR<double> decomp(mat);
+  linalg::SimpleGivensRotations<double> decomp(mat);
+  checkQR(&decomp, mat);
+}
+
+TEST(QR_Tests, SparseGivensTest) {
+  linalg::Matrix<double> mat = {
+    {0.8147, 0.0975, 0.1576},
+    {0.9058, 0.2785, 0.9706},
+    {0.0,    0.5469, 0.9572},
+    {0.0,    0.0,    0.4854},
+    {0.0,    0.9649, 0.0}      
+  };
+  linalg::SimpleGivensRotations<double> decomp(mat);
   checkQR(&decomp, mat);
 }

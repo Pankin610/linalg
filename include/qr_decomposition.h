@@ -46,12 +46,32 @@ class GivensRotationsQR : public QRDecomposition<T> {
     void transpose() { std::swap(mat[0][1], mat[1][0]); }
   };
 
-  GivensRotationsQR() {}
- public:
-  GivensRotationsQR(const Matrix<T>& mat);
+  void applyRotationOnR(GivensRotation& rotation) {
+    rotation.transpose();
+    rotation.apply(_R);
+    rotation.transpose();
+  }
 
+  void applyRotationOnQ(const GivensRotation& rotation) {
+    rotation.apply(_Q);
+  }
+
+  GivensRotationsQR(const Matrix<T>& mat) {
+    _R = mat;
+    _Q = Matrix<T>::identity(mat.rows(), mat.rows());
+  }
+
+  Matrix<T>& getCurR() { return _R; }
+
+ public:
   Matrix<T> getQ() override { return _Q; }
-  Matrix<T> getR() override { return _R; }
+  Matrix<T> getR() override { return _R; }  
+};
+
+template<typename T>
+class SimpleGivensRotations : public GivensRotationsQR<T> {
+ public:
+  SimpleGivensRotations(const Matrix<T>& mat);
 };
 
 template<typename T>
@@ -93,29 +113,28 @@ void GivensRotationsQR<T>::GivensRotation::apply(Matrix<T>& m) const {
 }
 
 template<typename T>
-GivensRotationsQR<T>::GivensRotationsQR(const Matrix<T>& mat) {
-  _R = mat;
-  _Q = Matrix<T>::identity(mat.rows(), mat.rows());
-
+SimpleGivensRotations<T>::SimpleGivensRotations(const Matrix<T>& mat) : 
+  GivensRotationsQR<T>(mat) 
+{
+  typedef typename GivensRotationsQR<T>::GivensRotation GivensRotation;
   std::vector<GivensRotation> rotation_list;
 
   for (int j = 0; j < mat.cols(); j++) {
-    for (int i = _R.cols() - 1; i > j; i--) {
-      if (util::isNear(_R[i][j], 0.0, 1e-14)) {
+    Matrix<T>& R = this->getCurR();
+    for (int i = R.cols() - 1; i > j; i--) {
+      if (util::isNear(R[i][j], 0.0, 1e-14)) {
         continue;
       }
 
-      auto rotation = GivensRotation(_R, i, j);
-      rotation.transpose();
-      rotation.apply(_R);
-      rotation.transpose();
-
+      auto rotation = GivensRotation(R, i, j);
+      this->applyRotationOnR(rotation);
       rotation_list.emplace_back(std::move(rotation));
     }
   }
+  
   std::reverse(rotation_list.begin(), rotation_list.end());
   for (auto& rot : rotation_list) {
-    rot.apply(_Q);
+    this->applyRotationOnQ(rot);
   }
 }
 
