@@ -8,6 +8,8 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <iostream>
+#include <future>
 
 namespace linalg {
 
@@ -155,32 +157,54 @@ ParallelGivensRotations<T>::ParallelGivensRotations(const Matrix<T>& mat) :
   typedef typename GivensRotationsQR<T>::GivensRotation GivensRotation;
   std::vector<GivensRotation> rotation_list;
   Matrix<T>& R = this->getCurR();
-
-  std::vector<std::mutex> r_mutexes(R.rows());
-  std::mutex rotation_list_mutex;
-  std::vector<std::thread> rotation_threads;
-
-  // this doesn't work yet
+  
+  std::vector<std::vector<int>> thread_ind(R.rows(), std::vector<int>(R.cols()));
+  int counter = 0;
   for (int j = 0; j < mat.cols(); j++) {
-    rotation_threads.emplace_back([&, j](){
-      for (int i = R.rows() - 1; i > j; i--) {
-        if (util::isNear(R[i][j], 0.0, 1e-14)) {
-          continue;
+    for (int i = R.rows() - 1; i > j; i--) {
+      thread_ind[i][j] = counter++;
+    }
+  }
+  std::vector<std::thread> th;
+  std::vector<std::promise<void>> promises;
+  std::vector<std::shared_future<void>> futures;
+  th.reserve(counter);
+  promises.reserve(counter);
+  futures.reserve(counter);
+  for (int i = 0; i < counter; i++) {
+    promises.emplace_back();
+    futures.emplace_back(promises.back().get_future());
+  }
+
+  std::mutex rotation_list_mutex;
+  for (int j = 0; j < mat.cols(); j++) {
+    for (int i = R.rows() - 1; i > j; i--) {
+      th.emplace_back([&, i, j](){
+        if (i + 1 < R.rows()) {
+          futures[thread_ind[i + 1][j]].wait();
+        }
+        if (j > 0) {
+          futures[thread_ind[i - 1][j - 1]].wait();
         }
 
-        std::scoped_lock rows_lock(r_mutexes[i - 1], r_mutexes[i]);
+        if (util::isNear(R[i][j], 0.0, 1e-14)) {
+          return;
+        }
+
         auto rotation = GivensRotation(R, i, j);
         this->applyRotationOnR(rotation);
         std::unique_lock list_lock(rotation_list_mutex);
         rotation_list.emplace_back(std::move(rotation));
-      }
-    });    
+
+        promises[thread_ind[i][j]].set_value();
+      });
+    }
   }
 
-  for (auto& rotation_thread : rotation_threads) {
-    rotation_thread.join();
+  for (auto& t : th) {
+    if (t.joinable()) t.join();
   }
-  
+
   std::reverse(rotation_list.begin(), rotation_list.end());
   for (auto& rot : rotation_list) {
     this->applyRotationOnQ(rot);

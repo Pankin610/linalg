@@ -81,10 +81,10 @@ TEST(QR_Tests, ParallelGivensTest) {
     {0.9058, 0.2785, 0.9706},
     {0.1270, 0.5469, 0.9572},
     {0.9134, 0.9575, 0.4854},
-    {0.6324, 0.9649, 0.8003}      
+    {0.6324, 0.9649, 0.8003}
   };
 
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 1000; i++) {
     linalg::ParallelGivensRotations<double> decomp(mat);
     checkQR(&decomp, mat);
   }
