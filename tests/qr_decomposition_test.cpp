@@ -2,6 +2,8 @@
 
 #include "qr_decomposition.h"
 #include "matrix.h"
+#include "rng.h"
+
 #include <exception>
 #include <iostream>
 #include <string>
@@ -84,8 +86,22 @@ TEST(QR_Tests, ParallelGivensTest) {
     {0.6324, 0.9649, 0.8003}
   };
 
-  for (int i = 0; i < 1000; i++) {
+  for (int i = 0; i < 100; i++) {
     linalg::ParallelGivensRotations<double> decomp(mat);
     checkQR(&decomp, mat);
   }
+}
+
+TEST(QR_Tests, BigGivensTest) {
+  linalg::util::RandomScalarGen<double> gen;
+  auto mat = linalg::util::getRandomMatrix<double>(200, 200, gen);
+
+  linalg::SimpleGivensRotations<double> decomp(mat);
+}
+
+TEST(QR_Tests, BigParallelGivensTest) {
+  linalg::util::RandomScalarGen<double> gen;
+  auto mat = linalg::util::getRandomMatrix<double>(200, 200, gen);
+
+  linalg::ParallelGivensRotations<double> decomp(mat);
 }

@@ -178,11 +178,8 @@ ParallelGivensRotations<T>::ParallelGivensRotations(const Matrix<T>& mat) :
 
   std::mutex rotation_list_mutex;
   for (int j = 0; j < mat.cols(); j++) {
-    for (int i = R.rows() - 1; i > j; i--) {
-      th.emplace_back([&, i, j](){
-        if (i + 1 < R.rows()) {
-          futures[thread_ind[i + 1][j]].wait();
-        }
+    th.emplace_back([&, j](){
+      for (int i = R.rows() - 1; i > j; i--) {
         if (j > 0) {
           futures[thread_ind[i - 1][j - 1]].wait();
         }
@@ -197,8 +194,8 @@ ParallelGivensRotations<T>::ParallelGivensRotations(const Matrix<T>& mat) :
         rotation_list.emplace_back(std::move(rotation));
 
         promises[thread_ind[i][j]].set_value();
-      });
-    }
+      }
+    });
   }
 
   for (auto& t : th) {
