@@ -4,6 +4,6 @@ interface Matrix {
   int Cols();
   double ValueAt(int x, int y);
   Matrix Multiply(Matrix other);
-  Matrix multiply(Vector other);
+  Matrix Multiply(Vector other);
   Matrix Add(Matrix other);
 }
