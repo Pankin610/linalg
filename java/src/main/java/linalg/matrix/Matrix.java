@@ -1,5 +1,8 @@
+package linalg.matrix;
+import linalg.vector.Vector;
+
 // immutable matrix
-interface Matrix {
+public interface Matrix {
   int Rows();
   int Cols();
   double ValueAt(int x, int y);
