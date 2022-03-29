@@ -12,7 +12,15 @@ public class DenseMatrixBuilder {
   }
 
   // TODO extra methods and error-pruning
-  void SetValue(int row, int col, double value) {
+  public void SetValue(int row, int col, double value) {
     mat_array_[row][col] = value;
+  }
+
+  public double GetValue(int row, int col) {
+    return mat_array_[row][col];
+  }
+
+  public DenseMatrix BuildMatrix() {
+    return new DenseMatrix(mat_array_);
   }
 };
