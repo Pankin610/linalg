@@ -1,0 +1,70 @@
+package linalg.algorithms;
+
+import linalg.vector.Vector;
+import linalg.matrix.Matrix;
+
+
+class WrongArgumentsException() extends Exception{}
+
+public class LUDecomposition{
+  DenseMatrix L;      
+  DenseMatrix U;  
+  DenseMatrix Mat;
+
+  LUDecomposition(Matrix Mat){
+    if(Mat.Cols() != Mat.Rows()){
+      throw new WrongArgumentsException();
+    }
+  };
+
+  void ConstructionLU(){
+        
+  final int n = Mat.Rows();
+
+  double LComponent[n][n];
+  double UComponent[n][n];
+
+  //Doolittle's Method for LU Decompositions
+
+  for(int i=0;i<n;i++){
+    //Calculating U
+    for(int k = i;k<n;k++){
+      int sum= 0;
+      for(int j=0;j<i;j++){
+        sum+=(LComponent[i][j]*UComponent[j][k]);
+      }
+      UComponent[i][k] = Mat[i][k] - sum;
+    }
+    //Calculating L
+    for(int k=i;k<n;k++){
+      if(i==k){ 
+        LComponent[i][i] = 1;
+      }else{
+        int sum= 0;
+        for(int j=0;j<i;j++){
+          sum+=(LComponent[k][j]*UComponent[j][i]);
+        }
+        LComponent[k][i] = (Mat[k][i] - sum)/UComponent[i][i];
+      }
+    }
+  }
+
+  L = new DenseMatrixBuilder(LComponent).BuildMatrix();
+  U = new DenseMatrixBuilder(UComponent).BuildMatrix();
+}
+
+  double Determinant(){
+    double res = 1;
+    final int n = Mat.Rows();
+        
+    for(int i=0;i<n;i++){
+      res*=L.valueAt[i][i];
+    }
+    for(int i=0;i<n;i++){
+      res*=U.valueAt[i][i];
+    }
+    return res;
+  }
+
+  //TODO: Implement function that solves AX = B
+}
