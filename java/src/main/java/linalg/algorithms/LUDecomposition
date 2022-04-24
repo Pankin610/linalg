@@ -21,8 +21,8 @@ public class LUDecomposition{
         
   final int n = Mat.Rows();
 
-  double LComponent[n][n];
-  double UComponent[n][n];
+  DenseMatrixBuilder LComponent(n,n);
+  DenseMatrixBuilder UComponent(n,n);
 
   //Doolittle's Method for LU Decompositions
 
@@ -31,9 +31,9 @@ public class LUDecomposition{
     for(int k = i;k<n;k++){
       int sum= 0;
       for(int j=0;j<i;j++){
-        sum+=(LComponent[i][j]*UComponent[j][k]);
+        sum+=(LComponent.get(i,j)*UComponent.get(j,k));
       }
-      UComponent[i][k] = Mat[i][k] - sum;
+      UComponent.set(i,k, Mat.valueAt(i,k) - sum);
     }
     //Calculating L
     for(int k=i;k<n;k++){
@@ -42,15 +42,15 @@ public class LUDecomposition{
       }else{
         int sum= 0;
         for(int j=0;j<i;j++){
-          sum+=(LComponent[k][j]*UComponent[j][i]);
+          sum+=(LComponent.get(k,j)*UComponent.get(j,i));
         }
-        LComponent[k][i] = (Mat[k][i] - sum)/UComponent[i][i];
+        LComponent.set(k,i, Mat.valueAt(k,i) - sum)/UComponent.get(i,i));
       }
     }
   }
 
-  L = new DenseMatrixBuilder(LComponent).BuildMatrix();
-  U = new DenseMatrixBuilder(UComponent).BuildMatrix();
+  L = LComponent.BuildMatrix();
+  U = UComponent.BuildMatrix();
 }
 
   double Determinant(){
@@ -58,10 +58,10 @@ public class LUDecomposition{
     final int n = Mat.Rows();
         
     for(int i=0;i<n;i++){
-      res*=L.valueAt[i][i];
+      res*=L.valueAt(i,i);
     }
     for(int i=0;i<n;i++){
-      res*=U.valueAt[i][i];
+      res*=U.valueAt(i,i);
     }
     return res;
   }
