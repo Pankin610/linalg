@@ -24,14 +24,18 @@ class MatrixCoordinateTest {
   void EqualsSimpleTest() {
     for (int i = 0; i < test_size; i++)
       Assertions.assertEquals(new MatrixCoordinate(i, i), new MatrixCoordinate(i , i));
-    for (int i = 0; i < test_size; i++)
-      Assertions.assertNotEquals(new MatrixCoordinate(i, i), new MatrixCoordinate(i, i + 1));
     MatrixCoordinate[] arr = new MatrixCoordinate[test_size];
     for (int i = 0; i < test_size; i++)
       arr[i] = new MatrixCoordinate(10, 100);
     for (MatrixCoordinate coord1 : arr)
       for (MatrixCoordinate coord2 : arr)
         Assertions.assertEquals(coord1, coord2);
+  }
+
+  @Test
+  void NotEqualsSimpleTest() {
+    for (int i = 0; i < test_size; i++)
+      Assertions.assertNotEquals(new MatrixCoordinate(i, i), new MatrixCoordinate(i, i + 1));
   }
 
   @Test
