@@ -31,7 +31,7 @@ class MatrixEntryTest {
     for (int i = 0; i < 20; i++)
       list_of_entries.add(new MatrixEntry(i, i + 1, i + 2));
     for (int i = 0; i < list_of_entries.size(); i++)
-      Assertions.assertEquals(i + 2, list_of_entries.get(i).Col());
+      Assertions.assertEquals(i + 2, list_of_entries.get(i).Value());
   }
 
   @Test
