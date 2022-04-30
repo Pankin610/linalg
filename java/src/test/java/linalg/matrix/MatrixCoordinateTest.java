@@ -9,13 +9,13 @@ class MatrixCoordinateTest {
   final int test_size = 100;
 
   @Test
-  void Row() {
+  void RowMethodTest() {
     for (int i = 0; i < test_size; i++)
       Assertions.assertEquals(i, new MatrixCoordinate(i, i + new Random().nextInt(test_size)).Row());
   }
 
   @Test
-  void col() {
+  void ColMethodTest() {
     for (int i = 0; i < test_size; i++)
       Assertions.assertEquals(i, new MatrixCoordinate( i + new Random().nextInt(test_size), i).Col());
   }
