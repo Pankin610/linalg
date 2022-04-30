@@ -30,5 +30,7 @@ abstract class VectorBuilder {
     return GetValueSafe(index);
   }
 
+  abstract public Vector BuildVector();
+
   private int size_;
 }

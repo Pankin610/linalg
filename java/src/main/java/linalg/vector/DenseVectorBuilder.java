@@ -19,6 +19,11 @@ class DenseVectorBuilder extends VectorBuilder {
 		return values_[index];
 	}
 
+	@Override
+	public Vector BuildVector() {
+		return new DenseVector(values_);
+	}
+
 	double[] values_;
 }
 

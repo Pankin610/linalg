@@ -27,5 +27,9 @@ class DenseVector implements Vector {
     }
   }
 
+  DenseVector(double[] values) {
+    values_ = values;
+  }
+
   private double[] values_;
 }
