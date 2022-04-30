@@ -1,0 +1,68 @@
+package linalg.algorithms;
+
+import linalg.vector.Vector;
+import linalg.matrix.Matrix;
+
+
+public class LUDecomposition{
+  DenseMatrix L;      
+  DenseMatrix U;  
+  DenseMatrix Mat;
+
+  LUDecomposition (Matrix Mat) {
+    if(Mat.Cols() != Mat.Rows()){
+      throw new java.lang.IllegalArgumentException();
+    }
+  };
+
+  void ConstructionLU () {
+        
+    final int n = Mat.Rows();
+
+    DenseMatrixBuilder LComponent(n,n);
+    DenseMatrixBuilder UComponent(n,n);
+
+    //Doolittle's Method for LU Decompositions
+
+    for(int i=0;i<n;i++){
+      //Calculating U
+      for(int k = i;k < n;k++){
+        int sum= 0;
+        for(int j = 0;j < i;j++){
+          sum+=(LComponent.get(i,j)*UComponent.get(j,k));
+        }
+        UComponent.set(i,k, Mat.valueAt(i,k) - sum);
+      }
+      //Calculating L
+      for(int k = i;k < n;k++){
+        if(i == k){ 
+          LComponent[i][i] = 1;
+        }else{
+          int sum= 0;
+          for(int j = 0;j < i;j++){
+            sum+=(LComponent.get(k,j)*UComponent.get(j,i));
+          }
+          LComponent.set(k,i, Mat.valueAt(k,i) - sum)/UComponent.get(i,i));
+        }
+      }
+    }
+
+    L = LComponent.BuildMatrix();
+    U = UComponent.BuildMatrix();
+  }
+
+  double Determinant(){
+    double res = 1;
+    final int n = Mat.Rows();
+        
+    for(int i = 0;i < n;i++){
+      res*=L.valueAt(i,i);
+    }
+    for(int i = 0;i < n;i++){
+      res*=U.valueAt(i,i);
+    }
+    return res;
+  }
+
+  //TODO: Implement function that solves AX = B
+}
