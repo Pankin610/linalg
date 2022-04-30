@@ -51,8 +51,8 @@ class COOMatrixBuilderTest {
           Assertions.fail();
         COOMatrixBuilder coo_matrix_builder = new COOMatrixBuilder(i, j);
         MatrixCoordinate coords = new MatrixCoordinate(new Random().nextInt(i), new Random().nextInt(j));
-        coo_matrix_builder.entry_map_.put(new MatrixCoordinate(i, j), (double) (coords.Col() * coords.Row()));
-        Assertions.assertEquals(coords.Row() * coords.Col(), coo_matrix_builder.GetValue(coords.Row(), coords.Col()));
+        coo_matrix_builder.entry_map_.put(coords, (double) (coords.Col() * coords.Row()));
+        Assertions.assertEquals((double) coords.Row() * coords.Col(), coo_matrix_builder.GetValue(coords.Row(), coords.Col()));
       }
     }
   }
