@@ -2,12 +2,15 @@ package linalg.algorithms;
 
 import linalg.vector.Vector;
 import linalg.matrix.Matrix;
+import linalg.matrix.DenseMatrix;
+import linalg.matrix.DenseMatrixBuilder;
 
 
 public class LUDecomposition{
-  DenseMatrix L;      
-  DenseMatrix U;  
-  DenseMatrix Mat;
+
+  Matrix L;      
+  Matrix U;  
+  Matrix Mat;
 
   LUDecomposition (Matrix Mat) {
     if(Mat.Cols() != Mat.Rows()){
@@ -19,8 +22,8 @@ public class LUDecomposition{
         
     final int n = Mat.Rows();
 
-    DenseMatrixBuilder LComponent(n,n);
-    DenseMatrixBuilder UComponent(n,n);
+    DenseMatrixBuilder LComponent = new DenseMatrixBuilder(n,n);
+    DenseMatrixBuilder UComponent = new DenseMatrixBuilder(n,n);
 
     //Doolittle's Method for LU Decompositions
 
@@ -29,20 +32,20 @@ public class LUDecomposition{
       for(int k = i;k < n;k++){
         int sum= 0;
         for(int j = 0;j < i;j++){
-          sum+=(LComponent.get(i,j)*UComponent.get(j,k));
+          sum+=(LComponent.GetValue(i,j)*UComponent.GetValue(j,k));
         }
-        UComponent.set(i,k, Mat.valueAt(i,k) - sum);
+        UComponent.SetValue(i,k, Mat.ValueAt(i,k) - sum);
       }
       //Calculating L
       for(int k = i;k < n;k++){
         if(i == k){ 
-          LComponent[i][i] = 1;
+          LComponent.SetValue(i,i,1);
         }else{
           int sum= 0;
           for(int j = 0;j < i;j++){
-            sum+=(LComponent.get(k,j)*UComponent.get(j,i));
+            sum+=(LComponent.GetValue(k,j)*UComponent.GetValue(j,i));
           }
-          LComponent.set(k,i, Mat.valueAt(k,i) - sum)/UComponent.get(i,i));
+          LComponent.SetValue(k,i, (Mat.ValueAt(k,i) - sum)/UComponent.GetValue(i,i));
         }
       }
     }
@@ -56,10 +59,10 @@ public class LUDecomposition{
     final int n = Mat.Rows();
         
     for(int i = 0;i < n;i++){
-      res*=L.valueAt(i,i);
+      res*=L.ValueAt(i,i);
     }
     for(int i = 0;i < n;i++){
-      res*=U.valueAt(i,i);
+      res*=U.ValueAt(i,i);
     }
     return res;
   }
