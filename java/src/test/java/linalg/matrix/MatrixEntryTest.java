@@ -67,7 +67,7 @@ class MatrixEntryTest {
   }
 
   @Test
-  void EqualsSimpleTestWithBigAmountOfEntries() {
+  void EqualsSimpleTestWithBigAmountOfEntriesTwoAdjacentShouldBeEqual() {
     MatrixEntry[] arr = new MatrixEntry[100];
     for (int i = 0; i < arr.length; i++)
       arr[i] = new MatrixEntry(i / 2, i / 2, 0);
@@ -76,7 +76,7 @@ class MatrixEntryTest {
   }
 
   @Test
-  void HashCodeEquality() {
+  void HashCodeEqualityToAdjacentShouldBeEqual() {
     MatrixEntry[] arr = new MatrixEntry[100];
     for (int i = 0; i < arr.length; i++)
       arr[i] = new MatrixEntry(i / 2, i / 2, 0);
