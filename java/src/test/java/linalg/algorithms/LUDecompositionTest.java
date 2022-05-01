@@ -43,8 +43,8 @@ class LUDecompositionTest {
       {5, 4, 3, 2, 1},
       {1, 3, 5, 2, 3},
     };
-    DenseMatrixBuilder dmb = new DenseMatrixBuilder(5, 5);
-    for (int i = 0; i < 5; i++)
+    DenseMatrixBuilder dmb = new DenseMatrixBuilder(3, 5);
+    for (int i = 0; i < 3; i++)
       for (int j = 0; j < 5; j++)
         dmb.SetValue(i, j, arr[i][j]);
 
@@ -98,12 +98,12 @@ class LUDecompositionTest {
       return;
     }
 
-    for (int i = 0; i < 5; i++)
-      for (int j = 0; j < 5; j++)
+    for (int i = 0; i < 4; i++)
+      for (int j = 0; j < 4; j++)
         Assertions.assertEquals(L[i][j], lu_decomposition.L.ValueAt(i, j));
 
-    for (int i = 0; i < 5; i++)
-      for (int j = 0; j < 5; j++)
+    for (int i = 0; i < 4; i++)
+      for (int j = 0; j < 4; j++)
         Assertions.assertEquals(U[i][j], lu_decomposition.U.ValueAt(i, j));
   }
 
@@ -115,7 +115,7 @@ class LUDecompositionTest {
       {2, 19, 10, 23},
       {4, 10, 11, 31}
     };
-    DenseMatrixBuilder dmb = new DenseMatrixBuilder(5, 5);
+    DenseMatrixBuilder dmb = new DenseMatrixBuilder(4, 4);
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
         dmb.SetValue(i, j, arr[i][j]);
