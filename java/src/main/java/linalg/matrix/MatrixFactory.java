@@ -13,7 +13,7 @@ import linalg.matrix.MatrixBuilder;
 import java.lang.IllegalArgumentException;
 import java.util.function.Consumer;
 
-class MatrixFactory {
+public class MatrixFactory {
   public static Matrix Add(Matrix a, Matrix b) {
     if (a.Rows() != b.Rows() || a.Cols() != b.Cols()) {
       throw new IllegalArgumentException("Matrix dimensions don't add up.");

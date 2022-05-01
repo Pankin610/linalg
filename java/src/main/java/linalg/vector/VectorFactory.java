@@ -5,7 +5,7 @@ import linalg.vector.DenseVector;
 import linalg.vector.DenseVectorBuilder;
 import linalg.matrix.Matrix;
 
-class VectorFactory {
+public class VectorFactory {
   public static Vector Zeros(int size) {
     VectorBuilder builder = new DenseVectorBuilder(size);
     return builder.BuildVector();

@@ -2,4 +2,4 @@ package linalg.matrix;
 
 import linalg.matrix.Matrix;
 
-interface SparseMatrix extends Matrix {}
+public interface SparseMatrix extends Matrix {}

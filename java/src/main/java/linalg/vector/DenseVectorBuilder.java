@@ -3,7 +3,7 @@ package linalg.vector;
 import linalg.vector.DenseVector;
 import linalg.vector.VectorEntry;
 
-class DenseVectorBuilder extends VectorBuilder {
+public class DenseVectorBuilder extends VectorBuilder {
 	public DenseVectorBuilder(int sz) {
 		super(sz);
 		values_ = new double[sz];

@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.lang.Math;
 import java.lang.IllegalArgumentException;
 
-class VectorUtils {
+public class VectorUtils {
   public static double InnerProduct(Vector v) {
     AtomicReference<Double> prod = new AtomicReference<>(0.);
     v.ForEachEntry(entry -> {
