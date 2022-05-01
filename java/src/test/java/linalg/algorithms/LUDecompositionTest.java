@@ -122,6 +122,6 @@ class LUDecompositionTest {
 
     LUDecomposition lu_decomposition = new LUDecomposition(dmb.BuildMatrix());
 
-    Assertions.assertEquals(24, lu_decomposition.Determinant());
+    Assertions.assertEquals(24.0, lu_decomposition.Determinant());
   }
 }
