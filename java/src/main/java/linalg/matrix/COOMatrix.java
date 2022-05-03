@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 // An immutable sparse matrix that stores
 // its entries in the COO format
-class COOMatrix implements SparseMatrix {
+public class COOMatrix implements SparseMatrix {
   @Override
   public int Rows() {
     return rows_;

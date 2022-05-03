@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 import java.lang.IllegalArgumentException;
 
-class DenseVector implements Vector {
+public class DenseVector implements Vector {
   @Override
   public double ValueAt(int index) {
     if (index < 0 || index >= values_.length) {
