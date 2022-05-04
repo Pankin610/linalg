@@ -21,8 +21,8 @@ class QRDecompositionGramSchmidtTest {
 
         double[][] arr_q = {
             {0.587, -0.716, -0.378},
-            {0.293,	-0.246,	0.924},
-            {0.755,	0.653, -0.0655}
+            {0.293, -0.246,	0.924},
+            {0.755, 0.653, -0.0655}
         };
 
         double[][] arr_r = {
@@ -59,8 +59,8 @@ class QRDecompositionGramSchmidtTest {
 
         double[][] arr_q = {
             {0.587, -0.716, -0.378},
-            {0.293,	-0.246,	0.924},
-            {0.755,	0.653, -0.0655}
+            {0.293, -0.246,	0.924},
+            {0.755, 0.653, -0.0655}
         };
 
         DenseMatrixBuilder dmb_a = new DenseMatrixBuilder(3, 3);
