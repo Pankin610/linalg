@@ -30,7 +30,8 @@ class COOMatrixTest {
   @Test
   void RowsWithEmptyMap() {
     for (int i = 0; i < test_size; i++)
-      Assertions.assertEquals(i, new COOMatrix(new HashMap<>(), i, i + new Random().nextInt(test_size)).Rows());
+      Assertions.assertEquals(i, new COOMatrix(new HashMap<>(), i,
+        i + new Random().nextInt(test_size)).Rows());
   }
 
   @Test
@@ -52,7 +53,8 @@ class COOMatrixTest {
   @Test
   void ColumnsWithEmptyMap() {
     for (int i = 0; i < test_size; i++)
-      Assertions.assertEquals(i, new COOMatrix(new HashMap<>(), i + new Random().nextInt(test_size), i).Cols());
+      Assertions.assertEquals(i, new COOMatrix(new HashMap<>(),
+        i + new Random().nextInt(test_size), i).Cols());
   }
 
   @Test
