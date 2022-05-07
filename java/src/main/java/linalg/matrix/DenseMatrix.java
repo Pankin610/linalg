@@ -31,6 +31,17 @@ public class DenseMatrix implements Matrix  {
     }
   }
 
+  @Override
+  public Matrix Transpose() {
+    double[][] transposed = new double[Cols()][Rows()];
+    for (int i = 0; i < Rows(); i++) {
+      for (int j = 0; j < Cols(); j++) {
+        transposed[j][i] = ValueAt(i, j);
+      }
+    }
+    return new DenseMatrix(transposed);
+  }
+
   // inside package only, to create a matrix use MatrixFactory
   DenseMatrix(int rows, int cols) {
     if (rows <= 0 || cols <= 0) {
