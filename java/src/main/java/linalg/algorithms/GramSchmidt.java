@@ -2,17 +2,16 @@ package linalg.algorithms;
 
 import linalg.matrix.*;
 import linalg.vector.DenseVectorBuilder;
-import linalg.vector.Vector;
 
-import java.util.concurrent.atomic.AtomicReference;
+import static linalg.vector.VectorUtils.OuterProduct;
 
-public class QRDecompositionGramSchmidt {
+public class GramSchmidt implements QRDecomposition {
 
-    Matrix Q;
-    Matrix R;
-    Matrix matrix;
+    private Matrix Q;
+    private Matrix R;
+    private final Matrix matrix;
 
-    QRDecompositionGramSchmidt(Matrix matrix) {
+    GramSchmidt(Matrix matrix) {
         if (matrix == null) {
             throw new IllegalArgumentException("Illegal argument");
         }
@@ -20,10 +19,20 @@ public class QRDecompositionGramSchmidt {
         this.matrix = matrix;
     }
 
-
+    @Override
     public void Decompose() {
-        Q = QRDecomposition().BuildMatrix();
-        R = MatrixFactory.DenseMultiply(Transpose(Q), matrix);
+        Q = GramSchmidtAlgorithm().BuildMatrix();
+        R = MatrixFactory.DenseMultiply(Q.Transpose(), matrix);
+    }
+
+    @Override
+    public Matrix Q() {
+        return Q;
+    }
+
+    @Override
+    public Matrix R() {
+        return R;
     }
 
 
@@ -33,7 +42,7 @@ public class QRDecompositionGramSchmidt {
      * and R - upper triangular
      * matrices with Gram-Schmidt algorithm
      */
-    DenseMatrixBuilder QRDecomposition() {
+    private DenseMatrixBuilder GramSchmidtAlgorithm() {
         MatrixBuilder a_builder = new DenseMatrixBuilder(matrix.Rows(), matrix.Cols());
         matrix.ForEachEntry(entry -> a_builder.SetValue(entry.Row(), entry.Col(), entry.Value()));
 
@@ -48,7 +57,7 @@ public class QRDecompositionGramSchmidt {
                 DenseVectorBuilder a_j = new DenseVectorBuilder(matrix.Rows());
                 for (int iter = 0; iter < a_j.VectorSize(); iter++)
                     a_j.SetValue(iter, a_builder.GetValue(iter, j));
-                double scalar = ScalarProduct(a_j.BuildVector(), q_i.BuildVector());
+                double scalar = OuterProduct(a_j.BuildVector(), q_i.BuildVector());
                 for (int k = 0; k < a_j.VectorSize(); k++) {
                     double to_subtract = q_i.GetValue(k) * scalar;
                     double current_val = a_builder.GetValue(k, j);
@@ -60,7 +69,7 @@ public class QRDecompositionGramSchmidt {
         return q_builder;
     }
 
-    DenseVectorBuilder IthColumn(int i, MatrixBuilder matrix) {
+    private DenseVectorBuilder IthColumn(int i, MatrixBuilder matrix) {
         if (matrix == null) {
             throw new IllegalArgumentException("Matrix can not be null");
         }
@@ -80,22 +89,5 @@ public class QRDecompositionGramSchmidt {
         }
 
         return builder;
-    }
-
-    double ScalarProduct(Vector a, Vector b) {
-        if (a.Size() != b.Size()) {
-            throw new IllegalArgumentException("Vectors of unequal sizes");
-        }
-
-        AtomicReference<Double> result = new AtomicReference<>((double) 0);
-        a.ForEachEntry(entry -> result.updateAndGet(v -> v + entry.Value() * b.ValueAt(entry.Index())));
-
-        return result.get();
-    }
-
-    Matrix Transpose(Matrix a) {
-        MatrixBuilder builder = new DenseMatrixBuilder(a.Cols(), a.Rows());
-        a.ForEachEntry(entry -> builder.SetValue(entry.Col(), entry.Row(), entry.Value()));
-        return builder.BuildMatrix();
     }
 }
