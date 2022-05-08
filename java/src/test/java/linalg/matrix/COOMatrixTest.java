@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
 
+import linalg.random.RandomMatrices;
+
 class COOMatrixTest {
   final int test_size = 100;
 
@@ -96,5 +98,20 @@ class COOMatrixTest {
         Assertions.assertTrue(list.contains((int) coo_matrix.ValueAt(i, j)));
 
     Assertions.assertEquals(list.size(), test_size * test_size);
+  }
+
+  @Test
+  void TransposeWorksCorrectly() {
+    final int rows = 100;
+    final int cols = 200;
+    COOMatrix mat = (COOMatrix)RandomMatrices.RandomSparseMatrix(rows, cols, 50);
+    COOMatrix transposed = (COOMatrix)mat.Transpose();
+    Assertions.assertEquals(mat.Rows(), transposed.Cols());
+    Assertions.assertEquals(mat.Cols(), transposed.Rows());
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        Assertions.assertEquals(mat.ValueAt(i, j), transposed.ValueAt(j, i));
+      }
+    }
   }
 }

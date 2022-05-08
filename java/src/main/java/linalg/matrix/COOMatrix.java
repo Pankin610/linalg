@@ -4,6 +4,8 @@ import linalg.matrix.Matrix;
 import linalg.matrix.SparseMatrix;
 import linalg.matrix.MatrixCoordinate;
 import linalg.matrix.MatrixEntry;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -31,6 +33,18 @@ public class COOMatrix implements SparseMatrix {
     for (Map.Entry<MatrixCoordinate, Double> entry : entry_map_.entrySet()) {
       func.accept(new MatrixEntry(entry.getKey(), entry.getValue()));
     } 
+  }
+
+  @Override
+  public Matrix Transpose() {
+    Stream<Map.Entry<MatrixCoordinate, Double>> new_stream = entry_map_.entrySet().stream().map(entry -> {
+      MatrixCoordinate coord = entry.getKey();
+      return Map.entry(new MatrixCoordinate(coord.Col(), coord.Row()), entry.getValue());
+    });
+    Map<MatrixCoordinate, Double> entry_map =  
+      new_stream.collect(Collectors.toMap(Map.Entry<MatrixCoordinate, Double>::getKey, 
+                                          Map.Entry<MatrixCoordinate, Double>::getValue));
+    return new COOMatrix(entry_map, Cols(), Rows());
   }
 
   COOMatrix(Map<MatrixCoordinate, Double> map, int rows, int cols) {

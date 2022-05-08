@@ -11,4 +11,5 @@ public interface Matrix {
   int Cols();
   double ValueAt(int x, int y);
   void ForEachEntry(Consumer<MatrixEntry> func);
+  Matrix Transpose();
 }
