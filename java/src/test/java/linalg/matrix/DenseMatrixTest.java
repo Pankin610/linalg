@@ -3,6 +3,8 @@ package linalg.matrix;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import linalg.random.RandomMatrices;
+
 public class DenseMatrixTest {
 
   @Test
@@ -103,5 +105,20 @@ public class DenseMatrixTest {
         arr[i][j] = i * i + j;
     DenseMatrix dm = new DenseMatrix(arr);
     dm.ForEachEntry(entry -> Assertions.assertEquals(entry.Row() * entry.Row() + entry.Col(), entry.Value(), 0));
+  }
+
+  @Test
+  void TransposeWorksCorrectly() {
+    final int rows = 100;
+    final int cols = 200;
+    DenseMatrix mat = (DenseMatrix)RandomMatrices.RandomDenseMatrix(rows, cols);
+    DenseMatrix transposed = (DenseMatrix)mat.Transpose();
+    Assertions.assertEquals(mat.Rows(), transposed.Cols());
+    Assertions.assertEquals(mat.Cols(), transposed.Rows());
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        Assertions.assertEquals(mat.ValueAt(i, j), transposed.ValueAt(j, i));
+      }
+    }
   }
 } 
