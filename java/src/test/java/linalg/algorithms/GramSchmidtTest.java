@@ -1,6 +1,7 @@
 package linalg.algorithms;
 
 import linalg.matrix.DenseMatrixBuilder;
+import linalg.matrix.Matrix;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,11 +36,13 @@ class GramSchmidtTest {
 
         GramSchmidt res = new GramSchmidt(dmb_a.BuildMatrix());
         res.Decompose();
+        Matrix Q = res.Q();
+        Matrix R = res.R();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                Assertions.assertEquals(arr_q[i][j], res.Q().ValueAt(i, j), 0.01);
-                Assertions.assertEquals(arr_r[i][j], res.R().ValueAt(i, j), 0.01);
+                Assertions.assertEquals(arr_q[i][j], Q.ValueAt(i, j), 0.01);
+                Assertions.assertEquals(arr_r[i][j], R.ValueAt(i, j), 0.01);
             }
         }
 
