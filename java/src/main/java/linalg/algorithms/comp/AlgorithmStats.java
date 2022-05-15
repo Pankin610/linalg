@@ -28,7 +28,7 @@ public class AlgorithmStats {
     num_runs_++;
   }
 
-  static AlgorithmStats GetAlgoStats(Supplier<Matrix> data, Consumer<Matrix> algo, int num_runs) {
+  public static AlgorithmStats GetAlgoStats(Supplier<Matrix> data, Consumer<Matrix> algo, int num_runs) {
     Clock clock = Clock.systemDefaultZone();
     AlgorithmStats stats = new AlgorithmStats();
 
