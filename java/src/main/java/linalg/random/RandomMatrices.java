@@ -7,6 +7,7 @@ import linalg.matrix.SparseMatrix;
 import linalg.matrix.DenseMatrixBuilder;
 import linalg.matrix.COOMatrixBuilder;
 import linalg.matrix.Matrix;
+import java.util.function.Supplier;
 
 public class RandomMatrices {
   public static DenseMatrix RandomDenseMatrix(int n, int m) {
@@ -17,6 +18,10 @@ public class RandomMatrices {
       }
     }
     return (DenseMatrix)builder.BuildMatrix();
+  }
+
+  public static Supplier<DenseMatrix> DenseMatrixSupplier(int n, int m) {
+    return () -> RandomDenseMatrix(n, m);
   }
 
   public static SparseMatrix RandomSparseMatrix(int n, int m, int num_entries) {
@@ -36,6 +41,10 @@ public class RandomMatrices {
     }
 
     return (SparseMatrix)builder.BuildMatrix();
+  }
+
+  public static Supplier<SparseMatrix> SparseMatrixSupplier(int n, int m, int num_entries) {
+    return () -> RandomSparseMatrix(n, m, num_entries);
   }
 
   private static Random rng = new Random();
