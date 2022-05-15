@@ -20,7 +20,7 @@ public class RandomMatrices {
     return (DenseMatrix)builder.BuildMatrix();
   }
 
-  public static Supplier<DenseMatrix> DenseMatrixSupplier(int n, int m) {
+  public static Supplier<Matrix> DenseMatrixSupplier(int n, int m) {
     return () -> RandomDenseMatrix(n, m);
   }
 
@@ -43,7 +43,7 @@ public class RandomMatrices {
     return (SparseMatrix)builder.BuildMatrix();
   }
 
-  public static Supplier<SparseMatrix> SparseMatrixSupplier(int n, int m, int num_entries) {
+  public static Supplier<Matrix> SparseMatrixSupplier(int n, int m, int num_entries) {
     return () -> RandomSparseMatrix(n, m, num_entries);
   }
 
