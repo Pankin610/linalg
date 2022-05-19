@@ -99,8 +99,7 @@ public class Householder implements QRDecomposition {
           dmb.SetValue(i, j, 0.0);
       }
     }
-
-
+    
     return dmb.BuildMatrix();
   }
 
