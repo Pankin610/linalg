@@ -52,11 +52,7 @@ public class Householder implements QRDecomposition {
     Matrix fraction = FractionOfVectors(a_vec_builder);
 
     Matrix H = Add(identity, fraction);
-    if (Q == null) {
-      Q = H;
-    } else {
-      Q = DenseMultiply(Q, UnitColRows(H));
-    }
+    Q = (Q == null) ? H : DenseMultiply(Q, UnitColRows(H));
 
     if (A.Cols() > 1 && A.Rows() > 1)
       HouseholderAlgorithm(CutFirstColRow(DenseMultiply(H, A)));
@@ -110,21 +106,26 @@ public class Householder implements QRDecomposition {
 
   Matrix CutFirstColRow(Matrix matrix) {
     DenseMatrixBuilder dmb = new DenseMatrixBuilder(matrix.Rows() - 1, matrix.Cols() - 1);
+
     matrix.ForEachEntry(entry -> {
       if (entry.Col() > 0 && entry.Row() > 0)
         dmb.SetValue(entry.Row() - 1, entry.Col() - 1, entry.Value());
     });
+
     return dmb.BuildMatrix();
   }
 
   Matrix UnitColRows(Matrix mat) {
     DenseMatrixBuilder builder = new DenseMatrixBuilder(Q.Rows(), Q.Cols());
     int diff = Q.Rows() - mat.Rows();
+
     mat.ForEachEntry(entry-> {
       builder.SetValue(entry.Row() + diff, entry.Col() + diff, entry.Value());
     });
+
     for (int i = 0; i < diff; i++)
       builder.SetValue(i, i, 1.0);
+
     return builder.BuildMatrix();
   }
 }
