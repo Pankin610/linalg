@@ -3,6 +3,6 @@ package linalg.algorithms.eigen;
 import linalg.matrix.Matrix;
 import java.util.Collection;
 
-interface EiganValuesComputer {
+public interface EigenValuesComputer {
   Collection<Double> GetEigenValues(Matrix mat);
 }
