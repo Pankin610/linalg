@@ -6,6 +6,9 @@ import linalg.matrix.MatrixFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static linalg.algorithms.TestingUtils.*;
+import static linalg.matrix.MatrixFactory.IdentityMatrix;
+
 class GramSchmidtTest {
   GramSchmidt gram_schmidt = new GramSchmidt();
 
@@ -35,17 +38,9 @@ class GramSchmidtTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    for (int i = 0; i < id.Rows(); i++)
-      for (int j = 0; j < id.Cols(); j++)
-        Assertions.assertEquals((i == j) ? 1 : 0, id.ValueAt(i, j), 0.25);
-
-    for (int i = 1; i < R.Rows(); i++)
-      for (int j = 0; j < i; j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j), 0.01);
-
-    for (int i = 0; i < res.Rows(); i++)
-      for (int j = 0; j < res.Cols(); j++)
-        Assertions.assertEquals(arr[i][j], res.ValueAt(i, j), 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 0.25);
+    CheckUpperTriangularDelta(R, 0.01);
+    CompareMatrixWithArrayDelta(arr, res, 0.01);
   }
 
   @Test
@@ -72,17 +67,9 @@ class GramSchmidtTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    for (int i = 0; i < id.Rows(); i++)
-      for (int j = 0; j < id.Cols(); j++)
-        Assertions.assertEquals((i == j) ? 1 : 0, id.ValueAt(i, j), 0.01);
-
-    for (int i = 1; i < R.Rows(); i++)
-      for (int j = 0; j < i; j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j), 0.01);
-
-    for (int i = 0; i < res.Rows(); i++)
-      for (int j = 0; j < res.Cols(); j++)
-        Assertions.assertEquals(arr[i][j], res.ValueAt(i, j), 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 0.01);
+    CheckUpperTriangularDelta(R, 0.01);
+    CompareMatrixWithArrayDelta(arr, res, 0.01);
   }
 
   @Test
@@ -106,13 +93,8 @@ class GramSchmidtTest {
     Assertions.assertEquals(arr.length, Q.Rows());
     Assertions.assertEquals(arr[0].length, R.Cols());
 
-    for (int i = 0; i < Q.Rows(); i++)
-      for (int j = 0; j < Q.Cols(); j++)
-        Assertions.assertEquals(0.0, Q.ValueAt(i, j));
-
-    for (int i = 0; i < R.Rows(); i++)
-      for (int j = 0; j < R.Cols(); j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j));
+    CompareMatrixWithArrayDelta(arr, Q, 0.0);
+    CompareMatrixWithArrayDelta(arr, R, 0.0);
   }
 
   @Test
@@ -137,16 +119,10 @@ class GramSchmidtTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    for (int i = 0; i < id.Rows(); i++)
-      for (int j = 0; j < id.Cols(); j++)
-        Assertions.assertEquals((i == j) ? 1 : 0, id.ValueAt(i, j), 0.01);
-
-    for (int i = 1; i < R.Rows(); i++)
-      for (int j = 0; j < i; j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j), 0.01);
-
-    for (int i = 0; i < res.Rows(); i++)
-      for (int j = 0; j < res.Cols(); j++)
-        Assertions.assertEquals(arr[i][j], res.ValueAt(i, j), 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 0.01);
+    CheckUpperTriangularDelta(R, 0.01);
+    CompareMatrixWithArrayDelta(arr, res, 0.01);
   }
+
+
 }

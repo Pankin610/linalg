@@ -6,8 +6,7 @@ import linalg.matrix.Matrix;
 import linalg.matrix.MatrixFactory;
 import linalg.vector.DenseVectorBuilder;
 
-import static linalg.matrix.MatrixFactory.Add;
-import static linalg.matrix.MatrixFactory.DenseMultiply;
+import static linalg.matrix.MatrixFactory.*;
 import static linalg.vector.VectorUtils.VectorLength;
 
 public class Householder implements QRDecomposition {
@@ -64,14 +63,13 @@ public class Householder implements QRDecomposition {
     return builder;
   }
 
-  private Matrix IdentityMatrix(int size) {
-    DenseMatrixBuilder dmb = new DenseMatrixBuilder(size, size);
-    for (int i = 0; i < size; i++) {
-      dmb.SetValue(i, i, 1.0);
-    }
-    return dmb.BuildMatrix();
-  }
 
+  /**
+   *
+   * @param dvb - vertical vector v
+   * @return - fraction (v*vT)/(vT*v)
+   * where vT is transposition of v
+   */
   private Matrix FractionOfVectors(DenseVectorBuilder dvb) {
     DenseMatrixBuilder vertical = new DenseMatrixBuilder(dvb.VectorSize(), 1);
     for (int i = 0; i < dvb.VectorSize(); i++) {
@@ -95,6 +93,9 @@ public class Householder implements QRDecomposition {
     return dmb.BuildMatrix();
   }
 
+  /**
+   * @return matrix without first column and first row
+   */
   Matrix CutFirstColRow(Matrix matrix) {
     DenseMatrixBuilder dmb = new DenseMatrixBuilder(matrix.Rows() - 1, matrix.Cols() - 1);
 
@@ -106,13 +107,17 @@ public class Householder implements QRDecomposition {
     return dmb.BuildMatrix();
   }
 
+  /**
+   *
+   * @param mat - matrix with probably less size than Q
+   * @return matrix of Q's size and mat entries with
+   * additional rows and cols with 1.0s diagonal
+   */
   Matrix UnitColRows(Matrix mat) {
     DenseMatrixBuilder builder = new DenseMatrixBuilder(Q.Rows(), Q.Cols());
     int diff = Q.Rows() - mat.Rows();
 
-    mat.ForEachEntry(entry-> {
-      builder.SetValue(entry.Row() + diff, entry.Col() + diff, entry.Value());
-    });
+    mat.ForEachEntry(entry-> builder.SetValue(entry.Row() + diff, entry.Col() + diff, entry.Value()));
 
     for (int i = 0; i < diff; i++)
       builder.SetValue(i, i, 1.0);

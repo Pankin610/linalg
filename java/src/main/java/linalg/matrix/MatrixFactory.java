@@ -73,4 +73,12 @@ public class MatrixFactory {
     });
     return (DenseMatrix)builder.BuildMatrix();
   }
+
+  public static Matrix IdentityMatrix(int size) {
+    DenseMatrixBuilder builder = new DenseMatrixBuilder(size, size);
+    for (int i = 0; i < size; i++) {
+      builder.SetValue(i, i, 1.0);
+    }
+    return builder.BuildMatrix();
+  }
 }

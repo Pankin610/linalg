@@ -6,6 +6,9 @@ import linalg.matrix.MatrixFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static linalg.algorithms.TestingUtils.*;
+import static linalg.matrix.MatrixFactory.IdentityMatrix;
+
 class HouseholderTest {
   Householder householder = new Householder();
 
@@ -35,17 +38,9 @@ class HouseholderTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    for (int i = 0; i < id.Rows(); i++)
-      for (int j = 0; j < id.Cols(); j++)
-        Assertions.assertEquals((i == j) ? 1 : 0, id.ValueAt(i, j), 0.01);
-
-    for (int i = 1; i < R.Rows(); i++)
-      for (int j = 0; j < i; j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j), 0.01);
-
-    for (int i = 0; i < res.Rows(); i++)
-      for (int j = 0; j < res.Cols(); j++)
-        Assertions.assertEquals(arr[i][j], res.ValueAt(i, j), 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 0.01);
+    CheckUpperTriangularDelta(R, 0.01);
+    CompareMatrixWithArrayDelta(arr, res, 0.01);
   }
 
   @Test
@@ -72,17 +67,9 @@ class HouseholderTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    for (int i = 0; i < id.Rows(); i++)
-      for (int j = 0; j < id.Cols(); j++)
-        Assertions.assertEquals((i == j) ? 1 : 0, id.ValueAt(i, j), 0.01);
-
-    for (int i = 1; i < R.Rows(); i++)
-      for (int j = 0; j < i; j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j), 0.01);
-
-    for (int i = 0; i < res.Rows(); i++)
-      for (int j = 0; j < res.Cols(); j++)
-        Assertions.assertEquals(arr[i][j], res.ValueAt(i, j), 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 0.01);
+    CheckUpperTriangularDelta(R, 0.01);
+    CompareMatrixWithArrayDelta(arr, res, 0.01);
   }
 
   @Test
@@ -110,17 +97,9 @@ class HouseholderTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    for (int i = 0; i < id.Rows(); i++)
-      for (int j = 0; j < id.Cols(); j++)
-        Assertions.assertEquals((i == j) ? 1 : 0, id.ValueAt(i, j), 0.01);
-
-    for (int i = 1; i < R.Rows(); i++)
-      for (int j = 0; j < i; j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j), 0.01);
-
-    for (int i = 0; i < res.Rows(); i++)
-      for (int j = 0; j < res.Cols(); j++)
-        Assertions.assertEquals(arr[i][j], res.ValueAt(i, j), 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 0.01);
+    CheckUpperTriangularDelta(R, 0.01);
+    CompareMatrixWithArrayDelta(arr, res, 0.01);
   }
 
   @Test
@@ -145,16 +124,8 @@ class HouseholderTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    for (int i = 0; i < id.Rows(); i++)
-      for (int j = 0; j < id.Cols(); j++)
-        Assertions.assertEquals((i == j) ? 1 : 0, id.ValueAt(i, j), 0.01);
-
-    for (int i = 1; i < R.Rows(); i++)
-      for (int j = 0; j < i; j++)
-        Assertions.assertEquals(0.0, R.ValueAt(i, j), 0.01);
-
-    for (int i = 0; i < res.Rows(); i++)
-      for (int j = 0; j < res.Cols(); j++)
-        Assertions.assertEquals(arr[i][j], res.ValueAt(i, j), 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 0.01);
+    CheckUpperTriangularDelta(R, 0.01);
+    CompareMatrixWithArrayDelta(arr, res, 0.01);
   }
 }
