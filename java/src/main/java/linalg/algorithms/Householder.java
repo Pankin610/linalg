@@ -14,27 +14,19 @@ public class Householder implements QRDecomposition {
 
   private Matrix Q;
   private Matrix R;
-  private final Matrix matrix;
 
-  Householder(Matrix matrix) {
-    if (matrix == null) {
-      throw new IllegalArgumentException("Illegal argument");
-    }
-
-    this.matrix = matrix;
-  }
   @Override
-  public Matrix Q() {
+  public Matrix GetQ() {
     return Q;
   }
 
   @Override
-  public Matrix R() {
+  public Matrix GetR() {
     return R;
   }
 
   @Override
-  public void Decompose() {
+  public void Decompose(Matrix matrix) {
     HouseholderAlgorithm(matrix);
     R = MatrixFactory.DenseMultiply(Q.Transpose(), matrix);
   }

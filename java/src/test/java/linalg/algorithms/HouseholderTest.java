@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class HouseholderTest {
+  Householder householder = new Householder();
+  
   @Test
   void Decompose() {
     double[][] arr_a = {
@@ -34,10 +36,10 @@ class HouseholderTest {
       for (int j = 0; j < 3; j++)
         dmb_a.SetValue(i, j, arr_a[i][j]);
 
-    Householder res = new Householder(dmb_a.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    householder.Decompose(dmb_a.BuildMatrix());
+
+    Matrix Q = householder.GetQ();
+    Matrix R = householder.GetR();
 
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
@@ -61,10 +63,9 @@ class HouseholderTest {
       for (int j = 0; j < 3; j++)
         dmb.SetValue(i, j, arr[i][j]);
 
-    Householder res = new Householder(dmb.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    householder.Decompose(dmb.BuildMatrix());
+    Matrix Q = householder.GetQ();
+    Matrix R = householder.GetR();
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
@@ -93,10 +94,10 @@ class HouseholderTest {
       for (int j = 0; j < 3; j++)
         dmb.SetValue(i, j, arr[i][j]);
 
-    Householder res = new Householder(dmb.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    householder.Decompose(dmb.BuildMatrix());
+
+    Matrix Q = householder.GetQ();
+    Matrix R = householder.GetR();
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
@@ -124,10 +125,10 @@ class HouseholderTest {
     for (int i = 0; i < 3; i++)
       dmb.SetValue(0, i, arr[0][i]);
 
-    Householder res = new Householder(dmb.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    householder.Decompose(dmb.BuildMatrix());
+
+    Matrix Q = householder.GetQ();
+    Matrix R = householder.GetR();
 
     Assertions.assertEquals(arr_r.length, R.Rows());
     Assertions.assertEquals(arr_r[0].length, R.Cols());

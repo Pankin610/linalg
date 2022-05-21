@@ -2,11 +2,11 @@ package linalg.algorithms;
 
 import linalg.matrix.DenseMatrixBuilder;
 import linalg.matrix.Matrix;
-import linalg.vector.DenseVectorBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class GramSchmidtTest {
+  GramSchmidt gram_schmidt = new GramSchmidt();
 
   @Test
   void Decompose() {
@@ -33,10 +33,10 @@ class GramSchmidtTest {
       for (int j = 0; j < 3; j++)
         dmb_a.SetValue(i, j, arr_a[i][j]);
 
-    GramSchmidt res = new GramSchmidt(dmb_a.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    gram_schmidt.Decompose(dmb_a.BuildMatrix());
+
+    Matrix Q = gram_schmidt.GetQ();
+    Matrix R = gram_schmidt.GetR();
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
@@ -59,10 +59,10 @@ class GramSchmidtTest {
       for (int j = 0; j < 3; j++)
         dmb.SetValue(i, j, arr[i][j]);
 
-    GramSchmidt res = new GramSchmidt(dmb.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    gram_schmidt.Decompose(dmb.BuildMatrix());
+
+    Matrix Q = gram_schmidt.GetQ();
+    Matrix R = gram_schmidt.GetR();
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
@@ -85,10 +85,10 @@ class GramSchmidtTest {
       for (int j = 0; j < 3; j++)
         dmb.SetValue(i, j, arr[i][j]);
 
-    GramSchmidt res = new GramSchmidt(dmb.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    gram_schmidt.Decompose(dmb.BuildMatrix());
+
+    Matrix Q = gram_schmidt.GetQ();
+    Matrix R = gram_schmidt.GetR();
 
     for (int i = 0; i < 3; i++) {
       for (int j = 0; j < 3; j++) {
@@ -118,10 +118,10 @@ class GramSchmidtTest {
     for (int i = 0; i < 3; i++)
         dmb.SetValue(0, i, arr[0][i]);
 
-    GramSchmidt res = new GramSchmidt(dmb.BuildMatrix());
-    res.Decompose();
-    Matrix Q = res.Q();
-    Matrix R = res.R();
+    gram_schmidt.Decompose(dmb.BuildMatrix());
+
+    Matrix Q = gram_schmidt.GetQ();
+    Matrix R = gram_schmidt.GetR();
 
     Assertions.assertEquals(arr_r.length, R.Rows());
     Assertions.assertEquals(arr_r[0].length, R.Cols());

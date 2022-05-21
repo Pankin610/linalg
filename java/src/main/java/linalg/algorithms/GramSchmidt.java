@@ -9,29 +9,22 @@ public class GramSchmidt implements QRDecomposition {
 
   private Matrix Q;
   private Matrix R;
-  private final Matrix matrix;
-
-  GramSchmidt(Matrix matrix) {
-    if (matrix == null) {
-      throw new IllegalArgumentException("Illegal argument");
-    }
-
-    this.matrix = matrix;
-  }
+  private Matrix matrix;
 
   @Override
-  public void Decompose() {
+  public void Decompose(Matrix matrix) {
+    this.matrix = matrix;
     Q = GramSchmidtAlgorithm().BuildMatrix();
     R = MatrixFactory.DenseMultiply(Q.Transpose(), matrix);
   }
 
   @Override
-  public Matrix Q() {
+  public Matrix GetQ() {
     return Q;
   }
 
   @Override
-  public Matrix R() {
+  public Matrix GetR() {
     return R;
   }
 
