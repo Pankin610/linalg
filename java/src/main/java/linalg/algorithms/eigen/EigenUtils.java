@@ -11,7 +11,7 @@ public class EigenUtils {
     if (!MatrixUtils.IsSquare(mat)) {
       throw new IllegalArgumentException("Matrix isn't square.");
     }
-    Vector vec = RandomVectors.RandomDenseVector(mat.Rows());
+    Vector vec = VectorFactory.Normalized(RandomVectors.RandomDenseVector(mat.Rows()));
 
     // Minimum number of multiplications
     for (int i = 0; i < 5; i++) {
@@ -39,6 +39,8 @@ public class EigenUtils {
       if (is_eigen) {
         return lambda;
       }
+
+      vec = VectorFactory.Normalized(new_vec);
     }
     throw new IllegalArgumentException("No eigen value.");
   }

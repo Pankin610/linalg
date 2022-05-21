@@ -21,9 +21,10 @@ public class EigenValuesWithQR implements EigenValuesComputer {
   @Override
   public Collection<Double> GetEigenValues(Matrix mat) {
     Matrix cur_mat = mat;
-    int max_iter = 1000;
+    int max_iter = max_iter_;
     // Until the matrix isn't converged we get its QR and assign it to R*Q
     while(max_iter != 0) {
+      max_iter--;
       decomposer_.Decompose(cur_mat);
       Matrix new_mat = MatrixFactory.DenseMultiply(decomposer_.GetR(), 
                                             decomposer_.GetQ());
