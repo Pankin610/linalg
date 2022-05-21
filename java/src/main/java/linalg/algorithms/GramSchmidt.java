@@ -2,6 +2,8 @@ package linalg.algorithms;
 
 import linalg.matrix.*;
 import linalg.vector.DenseVectorBuilder;
+import linalg.algorithm.comp.AlgorithmStats;
+import linalg.random.RandomMatrices;
 
 import static linalg.vector.VectorUtils.OuterProduct;
 
