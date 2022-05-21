@@ -109,7 +109,7 @@ public class Householder implements QRDecomposition {
 
   /**
    *
-   * @param mat - matrix with probably less size than Q
+   * @param mat - matrix with probably smaller size than Q
    * @return matrix of Q's size and mat entries with
    * additional rows and cols with 1.0s diagonal
    */
