@@ -27,11 +27,12 @@ public class EigenValuesWithQR implements EigenValuesComputer {
       max_iter--;
       decomposer_.Decompose(cur_mat);
       Matrix new_mat = MatrixFactory.DenseMultiply(decomposer_.GetR(), 
-                                            decomposer_.GetQ());
+                                                   decomposer_.GetQ());
       boolean changed = false;
       for (int i = 0; i < cur_mat.Rows() && !changed; i++) {
         for (int j = 0; j < cur_mat.Cols() && !changed; j++) {
-          if (Math.abs(cur_mat.ValueAt(i, j) - new_mat.ValueAt(i, j)) > eps_) {
+          if (Math.abs(Math.abs(cur_mat.ValueAt(i, j)) - 
+                       Math.abs(new_mat.ValueAt(i, j))) > eps_) {
             changed = true;
           }
         }
@@ -40,6 +41,7 @@ public class EigenValuesWithQR implements EigenValuesComputer {
       if (!changed) {
         break;
       }
+      cur_mat = new_mat;
     }
     
     ArrayList<Double> eigen_values = new ArrayList<>();

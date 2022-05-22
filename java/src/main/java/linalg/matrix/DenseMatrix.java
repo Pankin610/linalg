@@ -42,6 +42,19 @@ public class DenseMatrix implements Matrix  {
     return new DenseMatrix(transposed);
   }
 
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    for (int i = 0; i < Rows(); i++) {
+      for (int j = 0; j < Cols(); j++) {
+        builder.append(ValueAt(i, j));
+        builder.append(" ");
+      }
+      builder.append("\n");
+    }
+    return builder.toString();
+  }
+
   // inside package only, to create a matrix use MatrixFactory
   DenseMatrix(int rows, int cols) {
     if (rows <= 0 || cols <= 0) {
