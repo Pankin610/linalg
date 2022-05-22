@@ -32,6 +32,8 @@ public class MainMenuController extends MainMenu{
   @FXML 
   void onStatisticsClicked (MouseEvent event) throws IOException{
     FXMLLoader loader = new FXMLLoader(getClass().getResource("StatisticsView.fxml"));
+    loader.setController(new StatisticsController(start.getScene()));
+
     Stage currentStage = (Stage) start.getScene().getWindow();
     currentStage.setScene(new Scene(loader.load(), 800, 800));
     currentStage.show();
@@ -56,7 +58,7 @@ public class MainMenuController extends MainMenu{
     }
 
     FXMLLoader loader = new FXMLLoader(getClass().getResource("MatrixView.fxml"));
-    loader.setController(new MatrixViewController(builder.BuildMatrix()));
+    loader.setController(new MatrixViewController(builder.BuildMatrix(), start.getScene()));
 
     Stage currentStage = (Stage) start.getScene().getWindow();
     currentStage.setScene(new Scene(loader.load(), 800, 800));
