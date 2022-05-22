@@ -7,6 +7,7 @@ import linalg.matrix.*;
 import java.util.Collection;
 import java.util.ArrayList;
 import linalg.algorithms.GramSchmidt;
+import static linalg.algorithms.TestingUtils.SameDoubleCollections;
 
 import java.lang.IllegalArgumentException;
 
@@ -54,5 +55,6 @@ class EigenValuesWithQRTest {
     ArrayList<Double> expected_eigen = new ArrayList<>();
     expected_eigen.add(2.0);
     expected_eigen.add(-3.0);
+    Assertions.assertTrue(SameDoubleCollections(expected_eigen, eigen_values, 1e-9));
   }
 }
