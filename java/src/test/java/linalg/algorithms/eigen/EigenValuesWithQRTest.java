@@ -34,4 +34,25 @@ class EigenValuesWithQRTest {
     expected_eigen.add(3.0);
     Assertions.assertTrue(eigen_values.containsAll(expected_eigen));
   }
+
+  @Test
+  public void BasicMatrix() {
+    double[][] arr = {
+      { -5.0, 2.0 },
+      { -7.0, 4.0 }
+    };
+    DenseMatrixBuilder builder = new DenseMatrixBuilder(2, 2);
+    for (int i = 0; i < 2; i++) {
+      for (int j = 0; j < 2; j++) {
+        builder.SetValue(i, j, arr[i][j]);
+      }
+    }
+
+    EigenValuesComputer eigen_computer = new EigenValuesWithQR(new GramSchmidt());
+    Collection<Double> eigen_values = 
+      eigen_computer.GetEigenValues(builder.BuildMatrix());
+    ArrayList<Double> expected_eigen = new ArrayList<>();
+    expected_eigen.add(2.0);
+    expected_eigen.add(-3.0);
+  }
 }
