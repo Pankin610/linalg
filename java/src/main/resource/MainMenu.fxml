@@ -51,7 +51,8 @@
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="start" layoutX="274.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#OnStartClicked" prefHeight="38.0" prefWidth="105.0" text="Start" />
+            <Button fx:id="start" layoutX="40.0" layoutY="56.0" mnemonicParsing="false" onMouseClicked="#OnStartClicked" prefHeight="38.0" prefWidth="105.0" text="Start" />
+            <Button fx:id="statistics" layoutX="40.0" layoutY="128.0" mnemonicParsing="false" onMouseClicked="#onStatisticsClicked" prefHeight="38.0" prefWidth="194.0" text="Compare algorithms" />
       </children>
     </AnchorPane>
   </children>

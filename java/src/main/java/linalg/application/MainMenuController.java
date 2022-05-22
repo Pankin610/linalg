@@ -22,12 +22,24 @@ public class MainMenuController extends MainMenu{
   private Button start;
 
   @FXML
+  private Button statistics;
+
+  @FXML
   void initialize() {
     assert start != null : "fx:id=\"start\" was not injected: check your FXML file 'Untitled'.";
   }
 
+  @FXML 
+  void onStatisticsClicked (MouseEvent event) throws IOException{
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("StatisticsView.fxml"));
+    Stage currentStage = (Stage) start.getScene().getWindow();
+    currentStage.setScene(new Scene(loader.load(), 800, 800));
+    currentStage.show();
+  }
+
+
   @FXML
-  void OnStartClicked(MouseEvent event) throws IOException{
+  void OnStartClicked (MouseEvent event) throws IOException{
     double[][] arr1 = {
       {1, 2, 3, 4, 5},
       {5, 4, 3, 2, 1},
