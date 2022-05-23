@@ -10,6 +10,8 @@ public class AlgorithmStats {
   public AlgorithmStats() {
     num_runs_ = 0;
     average_run_time_ = Duration.ZERO;
+    best_run_ = Duration.ofHours(610);
+    worst_run_ = Duration.ZERO;
   }
 
   public int NumRuns() {
@@ -17,7 +19,24 @@ public class AlgorithmStats {
   }
 
   public Duration AverageRunTime() {
+    if (NumRuns() == 0) {
+      throw new UnsupportedOperationException("No runs added.");
+    }
     return average_run_time_;
+  }
+
+  public Duration BestRun() {
+    if (NumRuns() == 0) {
+      throw new UnsupportedOperationException("No runs added.");
+    }
+    return best_run_;
+  }
+
+  public Duration WorstRun() {
+    if (NumRuns() == 0) {
+      throw new UnsupportedOperationException("No runs added.");
+    }
+    return worst_run_;
   }
 
   public void AddRun(Duration run_duration) {
@@ -26,6 +45,13 @@ public class AlgorithmStats {
       .plus(run_duration)
       .dividedBy(num_runs_ + 1);
     num_runs_++;
+
+    if (run_duration.compareTo(worst_run_) > 0) {
+      worst_run_ = run_duration;
+    }
+    if (run_duration.compareTo(best_run_) < 0) {
+      best_run_ = run_duration;
+    }
   }
 
   public static AlgorithmStats GetAlgoStats(Supplier<Matrix> data, Consumer<Matrix> algo, int num_runs) {
@@ -43,5 +69,7 @@ public class AlgorithmStats {
   }
 
   private int num_runs_;
+  private Duration worst_run_;
+  private Duration best_run_;
   private Duration average_run_time_;
 }

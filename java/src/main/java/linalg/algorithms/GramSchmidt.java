@@ -11,29 +11,22 @@ public class GramSchmidt implements QRDecomposition {
 
   private Matrix Q;
   private Matrix R;
-  private final Matrix matrix;
-
-  GramSchmidt(Matrix matrix) {
-    if (matrix == null) {
-      throw new IllegalArgumentException("Illegal argument");
-    }
-
-    this.matrix = matrix;
-  }
+  private Matrix matrix;
 
   @Override
-  public void Decompose() {
+  public void Decompose(Matrix matrix) {
+    this.matrix = matrix;
     Q = GramSchmidtAlgorithm().BuildMatrix();
     R = MatrixFactory.DenseMultiply(Q.Transpose(), matrix);
   }
 
   @Override
-  public Matrix Q() {
+  public Matrix GetQ() {
     return Q;
   }
 
   @Override
-  public Matrix R() {
+  public Matrix GetR() {
     return R;
   }
 
@@ -68,6 +61,11 @@ public class GramSchmidt implements QRDecomposition {
       }
     }
 
+    for (int i = 0; i < matrix.Rows(); i++)
+      for (int j = 0; j < matrix.Cols(); j++)
+        if (Double.isNaN(q_builder.GetValue(i, j)))
+          q_builder.SetValue(i, j, 0.0);
+
     return q_builder;
   }
 
@@ -91,16 +89,5 @@ public class GramSchmidt implements QRDecomposition {
     }
 
     return builder;
-  }
-
-  public static void main(String[] args) {
-    AlgorithmStats qr_stats = AlgorithmStats.GetAlgoStats(
-      RandomMatrices.DenseMatrixSupplier(100, 100), 
-      (matrix) -> {
-        QRDecomposition decomp = new GramSchmidt(matrix);
-        decomp.Decompose();
-      },
-      100);
-    System.out.println(qr_stats.AverageRunTime().toMillis());
   }
 }

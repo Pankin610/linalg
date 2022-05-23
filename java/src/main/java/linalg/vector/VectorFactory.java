@@ -30,4 +30,14 @@ public class VectorFactory {
     });
     return builder.BuildVector();
   }
+
+
+  public static Vector Normalized(Vector vec) {
+    VectorBuilder builder = new DenseVectorBuilder(vec.Size());
+    final double len = VectorUtils.VectorLength(vec);
+    vec.ForEachEntry(entry -> {
+      builder.SetValue(entry.Index(), entry.Value() / len);
+    });
+    return builder.BuildVector();
+  }
 }
