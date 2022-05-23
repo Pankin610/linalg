@@ -12,8 +12,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
+import java.util.ArrayList;
+import java.util.ArrayList;
+import linalg.algorithm.comp.AlgorithmStats;
+import linalg.algorithms.GramSchmidt;
+import linalg.algorithms.LUDecomposition;
+import linalg.algorithms.QRDecomposition;
+import linalg.random.RandomMatrices;
+import java.util.function.Supplier;
 
 public class StatisticsController {
+
+    ArrayList<String> allAlgorithms;
 
     Scene backScene;
 
@@ -24,16 +34,34 @@ public class StatisticsController {
     private URL location;
 
     @FXML
-    private ChoiceBox firstAlgorithmChoiceBox;
+    private ChoiceBox AlgorithmChoiceBox;
 
     @FXML
-    private ChoiceBox secondAlgorithmChoiceBox;
+    private Label resultOfAlgorithm;
 
     @FXML
     private ChoiceBox typeChoisceBox;
 
     StatisticsController(Scene backScene) {
       this.backScene = backScene;
+    }
+    
+    @FXML
+    public void onCompareClicked(MouseEvent event){
+      Supplier<Matrix> data = typeChoisceBox.getValue() == "Dense" ? () -> RandomMatrices.RandomDenseMatrix(100, 100) : () -> RandomMatrices.RandomSparseMatrix(100, 100, 100);
+      AlgorithmStats algorithmStats = new AlgorithmStats();
+      if(AlgorithmChoiceBox.getValue() == "LUDecomposition"){
+        resultOfAlgorithm.setText(Long.toString(algorithmStats.GetAlgoStats(data, m -> new LUDecomposition(m).Decompose(), 1).AverageRunTime().toMillis()));
+      }
+      
+      if(AlgorithmChoiceBox.getValue() == "GramSchmidt"){
+        resultOfAlgorithm.setText(Long.toString(AlgorithmStats.GetAlgoStats(data, m -> new GramSchmidt().Decompose(m), 1).AverageRunTime().toMillis()));
+      }
+
+      if(AlgorithmChoiceBox.getValue() == "QRDecomposition"){
+        resultOfAlgorithm.setText(Long.toString(AlgorithmStats.GetAlgoStats(data, m -> new GramSchmidt().Decompose(m), 1).AverageRunTime().toMillis()));
+      }
+
     }
 
     @FXML
@@ -46,9 +74,12 @@ public class StatisticsController {
 
     @FXML
     void initialize() {
+      allAlgorithms = new ArrayList<>();
+      allAlgorithms.add("GramSchmidt");
+      allAlgorithms.add("LUDecomposition");
+      allAlgorithms.add("QRDecomposition");
       typeChoisceBox.getItems().addAll("Dense", "Sparse");
-      firstAlgorithmChoiceBox.getItems().addAll("GramSchmidt", "LUDdecomposition", "QRDecomposition");
-      secondAlgorithmChoiceBox.getItems().addAll("GramSchmidt", "LUDdecomposition", "QRDecomposition");
+      AlgorithmChoiceBox.getItems().addAll("GramSchmidt", "LUDecomposition", "QRDecomposition");
     }
 
 }
