@@ -19,10 +19,10 @@ class GivensRotationTest {
   @Test
   void Decompose() {
     double[][] arr = {
-      { 1.0, -1.0, 4.0 },
-      { 1.0, 4.0, -2.0 },
-      { 1.0, 4.0, 2.0 },
-      { 1.0, -1.0, 0.0 }
+        { 1.0, -1.0, 4.0 },
+        { 1.0, 4.0, -2.0 },
+        { 1.0, 4.0, 2.0 },
+        { 1.0, -1.0, 0.0 }
     };
 
     DenseMatrixBuilder dmb_a = new DenseMatrixBuilder(4, 3);
@@ -50,9 +50,9 @@ class GivensRotationTest {
   @Test
   void DecomposeIdentityMatrix() {
     double[][] arr = {
-      { 1.0, 0.0, 0.0 },
-      { 0.0, 1.0, 0.0 },
-      { 0.0, 0.0, 1.0 }
+        { 1.0, 0.0, 0.0 },
+        { 0.0, 1.0, 0.0 },
+        { 0.0, 0.0, 1.0 }
     };
 
     DenseMatrixBuilder dmb = new DenseMatrixBuilder(3, 3);
@@ -79,9 +79,9 @@ class GivensRotationTest {
   @Test
   void DecomposeIZeroMatrix() {
     double[][] arr = {
-      { 0.0, 0.0, 0.0 },
-      { 0.0, 0.0, 0.0 },
-      { 0.0, 0.0, 0.0 }
+        { 0.0, 0.0, 0.0 },
+        { 0.0, 0.0, 0.0 },
+        { 0.0, 0.0, 0.0 }
     };
 
     DenseMatrixBuilder dmb = new DenseMatrixBuilder(3, 3);
@@ -109,7 +109,7 @@ class GivensRotationTest {
   @Test
   void DecomposeVector() {
     double[][] arr = {
-      { 1.0, 2.0, 3.0 }
+        { 1.0, 2.0, 3.0 }
     };
 
     DenseMatrixBuilder dmb = new DenseMatrixBuilder(1, 3);
@@ -136,9 +136,9 @@ class GivensRotationTest {
   @Test
   void DecomposeWikipediaExample() {
     double[][] arr = {
-      { 6.0, 5.0, 0.0 },
-      { 5.0, 1.0, 4.0 },
-      { 0.0, 4.0, 3.0 }
+        { 6.0, 5.0, 0.0 },
+        { 5.0, 1.0, 4.0 },
+        { 0.0, 4.0, 3.0 }
     };
 
     DenseMatrixBuilder dmb_a = new DenseMatrixBuilder(arr.length, arr[0].length);

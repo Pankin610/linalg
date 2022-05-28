@@ -11,7 +11,8 @@ public class GivensRotation implements QRDecomposition {
 
   @Override
   public Matrix GetQ() {
-    if (Q == null) Q = MatrixFactory.IdentityMatrix(R.Rows());
+    if (Q == null)
+      Q = MatrixFactory.IdentityMatrix(R.Rows());
     return Q;
   }
 
@@ -35,7 +36,7 @@ public class GivensRotation implements QRDecomposition {
 
   private Matrix Rotate(int row, int col) {
     double r = Math.sqrt(R.ValueAt(row, col) * R.ValueAt(row, col)
-      + R.ValueAt(col, col) * R.ValueAt(col, col));
+        + R.ValueAt(col, col) * R.ValueAt(col, col));
     double c = R.ValueAt(col, col) / r;
     double s = -R.ValueAt(row, col) / r;
 
@@ -48,7 +49,8 @@ public class GivensRotation implements QRDecomposition {
     builder.SetValue(col, row, -s);
     Matrix G = builder.BuildMatrix();
 
-    if (Q == null) Q = MatrixFactory.IdentityMatrix(G.Cols());
+    if (Q == null)
+      Q = MatrixFactory.IdentityMatrix(G.Cols());
     Q = MatrixFactory.DenseMultiply(Q, G.Transpose());
 
     return MatrixFactory.DenseMultiply(G, R);
