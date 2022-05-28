@@ -80,6 +80,16 @@ public class DenseMatrix implements Matrix  {
     return true;
   }
 
+  public SparseMatrix toSparse() {
+    COOMatrixBuilder builder = new COOMatrixBuilder(Rows(), Cols());
+    for (int i = 0; i < Rows(); i++) {
+      for (int j = 0; j < Cols(); j++) {
+        builder.SetValue(i, j, ValueAt(i, j));
+      }
+    }
+    return (SparseMatrix)builder.BuildMatrix();
+  }
+
   // inside package only, to create a matrix use MatrixFactory
   DenseMatrix(int rows, int cols) {
     if (rows <= 0 || cols <= 0) {

@@ -2,6 +2,7 @@ package linalg.matrix;
 
 import static linalg.matrix.MatrixFactory.Add;
 import static linalg.matrix.MatrixFactory.DenseMultiply;
+import static linalg.matrix.MatrixFactory.SparseMultiply;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -156,7 +157,37 @@ class MatrixFactoryTest {
   }
 
   @Test
-  void sparseMultiply() {
-    // TODO: SparseMultiplyTests
+  void SparseMultiplyWithCorrectDimensionsNonSquareSize() {
+    double[][] arr1 = {
+      {1, 2, 3},
+      {5, 4, 3},
+      {1, 3, 5},
+      {2, 4, 5},
+      {1, 5, 2}
+    };
+
+    double[][] arr2 = {
+      {4, 2, 1, 4, 5},
+      {5, 3, 1, 2, 1},
+      {6, 1, 1, 2, 3},
+    };
+
+    double[][] arr3 = {
+      {32, 11, 6, 14, 16},
+      {58, 25, 12, 34, 38},
+      {49, 16, 9, 20, 23},
+      {58, 21, 11, 26, 29},
+      {41, 19, 8, 18, 16}
+    };
+
+    SparseMatrix dm1 = new DenseMatrix(arr1).toSparse();
+    SparseMatrix dm2 = new DenseMatrix(arr2).toSparse();
+    SparseMatrix expected = new DenseMatrix(arr3).toSparse();
+
+    SparseMatrix res = SparseMultiply(dm1, dm2);
+
+    for (int i = 0; i < expected.Rows(); i++)
+      for (int j = 0; j < expected.Cols(); j++)
+        Assertions.assertEquals(expected.ValueAt(i, j), res.ValueAt(i, j));
   }
 }
