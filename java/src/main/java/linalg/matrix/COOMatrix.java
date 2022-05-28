@@ -47,6 +47,11 @@ public class COOMatrix implements SparseMatrix {
     return new COOMatrix(entry_map, Cols(), Rows());
   }
 
+  @Override
+  public int NumActiveEntries() {
+    return entry_map_.size();
+  }
+
   COOMatrix(Map<MatrixCoordinate, Double> map, int rows, int cols) {
     entry_map_ = map;
     rows_ = rows;

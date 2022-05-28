@@ -12,4 +12,6 @@ public interface Matrix {
   double ValueAt(int x, int y);
   void ForEachEntry(Consumer<MatrixEntry> func);
   Matrix Transpose();
+  // Number of entries that should be consumed by the ForEachEntry function.
+  int NumActiveEntries();
 }
