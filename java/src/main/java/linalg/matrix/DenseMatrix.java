@@ -43,6 +43,11 @@ public class DenseMatrix implements Matrix  {
   }
 
   @Override
+  public int NumActiveEntries() {
+    return Rows() * Cols();
+  }
+
+  @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
     for (int i = 0; i < Rows(); i++) {
@@ -53,6 +58,26 @@ public class DenseMatrix implements Matrix  {
       builder.append("\n");
     }
     return builder.toString();
+  }
+
+  @Override 
+  public boolean equals(Object o) {
+    if (!(o instanceof DenseMatrix)) {
+      return false;
+    }
+
+    DenseMatrix other = (DenseMatrix)o;
+    if (other.Cols() != Cols() || other.Rows() != Rows()) {
+      return false;
+    }
+    for (int i = 0; i < Rows(); i++) {
+      for (int j = 0; j < Cols(); j++) {
+        if (Math.abs(ValueAt(i, j) - other.ValueAt(i, j)) > 1e-9) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   // inside package only, to create a matrix use MatrixFactory
