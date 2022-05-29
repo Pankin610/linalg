@@ -16,8 +16,18 @@ public class GramSchmidt implements QRDecomposition {
   @Override
   public void Decompose(Matrix matrix) {
     this.matrix = matrix;
-    Q = GramSchmidtAlgorithm().BuildMatrix();
-    R = MatrixFactory.DenseMultiply(Q.Transpose(), matrix);
+    boolean non_zero = false;
+    for (int i = 0; i < matrix.Rows(); i++)
+      for (int j = 0; j < matrix.Cols(); j++)
+        non_zero |= Math.abs(matrix.ValueAt(i, j)) > 1e-3;
+
+    if (non_zero) {
+      Q = GramSchmidtAlgorithm().BuildMatrix();
+      R = MatrixFactory.DenseMultiply(Q.Transpose(), matrix);
+    } else {
+      Q = MatrixFactory.IdentityMatrix(matrix.Rows());
+      R = new DenseMatrixBuilder(matrix.Cols(), matrix.Cols()).BuildMatrix();
+    }
   }
 
   @Override
