@@ -42,9 +42,9 @@ class GivensRotationTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 0.01);
-    CheckUpperTriangularDelta(R, 0.01);
-    CompareMatrixWithArrayDelta(arr, res, 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 1e-10);
+    CheckUpperTriangularDelta(R, 1e-10);
+    CompareMatrixWithArrayDelta(arr, res, 1e-10);
   }
 
   @Test
@@ -71,9 +71,9 @@ class GivensRotationTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 0.01);
-    CheckUpperTriangularDelta(R, 0.01);
-    CompareMatrixWithArrayDelta(arr, res, 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 1e-10);
+    CheckUpperTriangularDelta(R, 1e-10);
+    CompareMatrixWithArrayDelta(arr, res, 1e-10);
   }
 
   @Test
@@ -101,9 +101,9 @@ class GivensRotationTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 0.01);
-    CheckUpperTriangularDelta(R, 0.01);
-    CompareMatrixWithArrayDelta(arr, res, 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 1e-10);
+    CheckUpperTriangularDelta(R, 1e-10);
+    CompareMatrixWithArrayDelta(arr, res, 1e-10);
   }
 
   @Test
@@ -128,9 +128,9 @@ class GivensRotationTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 0.01);
-    CheckUpperTriangularDelta(R, 0.01);
-    CompareMatrixWithArrayDelta(arr, res, 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 1e-10);
+    CheckUpperTriangularDelta(R, 1e-10);
+    CompareMatrixWithArrayDelta(arr, res, 1e-10);
   }
 
   @Test
@@ -158,8 +158,8 @@ class GivensRotationTest {
     Assertions.assertEquals(arr.length, res.Rows());
     Assertions.assertEquals(arr[0].length, res.Cols());
 
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 0.01);
-    CheckUpperTriangularDelta(R, 0.01);
-    CompareMatrixWithArrayDelta(arr, res, 0.01);
+    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 1e-10);
+    CheckUpperTriangularDelta(R, 1e-10);
+    CompareMatrixWithArrayDelta(arr, res, 1e-10);
   }
 }

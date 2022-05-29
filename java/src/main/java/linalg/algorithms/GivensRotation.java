@@ -9,9 +9,6 @@ import linalg.vector.VectorFactory;
 
 public class GivensRotation implements QRDecomposition {
 
-  private Matrix Q;
-  private Matrix R;
-
   @Override
   public Matrix GetQ() {
     return Q;
@@ -25,22 +22,35 @@ public class GivensRotation implements QRDecomposition {
   @Override
   public void Decompose(Matrix matrix) {
     this.R = matrix;
-    Q = MatrixFactory.IdentityMatrix(R.Rows());
     GivensRotationAlgorithm();
-    Q = Q.Transpose();
+    R = builder_R.BuildMatrix();
+    Q = builder_Q.BuildMatrix().Transpose();
   }
 
+  /**
+   * method looks for non-zero elements in matrix builder R
+   * and applies rotation on those indices
+   */
   private void GivensRotationAlgorithm() {
+    builder_R = new DenseMatrixBuilder(R.Rows(), R.Cols());
+    R.ForEachEntry(e -> builder_R.SetValue(e.Row(), e.Col(), e.Value()));
+    builder_Q = new DenseMatrixBuilder(R.Rows(), R.Rows());
+    for (int i = 0; i < R.Rows(); i++)
+      builder_Q.SetValue(i, i, 1.0);
+
     for (int j = 0; j < R.Cols(); j++)
       for (int i = R.Rows() - 1; i > j; i--)
-        if (Math.abs(R.ValueAt(i, j) - 0.0) >= 1e-3)
+        if (Math.abs(builder_R.GetValue(i, j) - 0.0) >= 1e-5)
           Rotate(i, j);
   }
 
+  /**
+   * creates 2x2 rotation matrix
+   */
   private void Rotate(int row, int col) {
     // cos, sin and r values
-    double a = R.ValueAt(row - 1, col);
-    double b = R.ValueAt(row, col);
+    double a = builder_R.GetValue(row - 1, col);
+    double b = builder_R.GetValue(row, col);
     double r = Math.sqrt(a * a + b * b);
     double c = a / r;
     double s = -b / r;
@@ -52,37 +62,34 @@ public class GivensRotation implements QRDecomposition {
     two_x_two.SetValue(1, 0, s);
     two_x_two.SetValue(1, 1, c);
 
-    Matrix mat = two_x_two.BuildMatrix();
+    mat = two_x_two.BuildMatrix();
 
-    // Modifying rows R
-    DenseMatrixBuilder new_R = new DenseMatrixBuilder(R.Rows(), R.Cols());
-    R.ForEachEntry(e -> new_R.SetValue(e.Row(), e.Col(), e.Value()));
-
-    for (int j = 0; j < R.Cols(); j++) {
-      DenseVectorBuilder vector = new DenseVectorBuilder(2);
-      vector.SetValue(0, R.ValueAt(row - 1, j));
-      vector.SetValue(1, R.ValueAt(row, j));
-
-      Vector res = VectorFactory.MatrixByVector(mat, vector.BuildVector());
-      new_R.SetValue(row - 1, j, res.ValueAt(0));
-      new_R.SetValue(row, j, res.ValueAt(1));
-    }
-
-    // Modifying rows Q
-    DenseMatrixBuilder new_Q = new DenseMatrixBuilder(Q.Rows(), Q.Cols());
-    Q.ForEachEntry(e -> new_Q.SetValue(e.Row(), e.Col(), e.Value()));
-
-    for (int j = 0; j < Q.Cols(); j++) {
-      DenseVectorBuilder vector = new DenseVectorBuilder(2);
-      vector.SetValue(0, Q.ValueAt(row - 1, j));
-      vector.SetValue(1, Q.ValueAt(row, j));
-
-      Vector res = VectorFactory.MatrixByVector(mat, vector.BuildVector());
-      new_Q.SetValue(row - 1, j, res.ValueAt(0));
-      new_Q.SetValue(row, j, res.ValueAt(1));
-    }
-
-    Q = new_Q.BuildMatrix();
-    R = new_R.BuildMatrix();
+    ModifyMatrixBuilderRows(builder_R, row, R.Cols());
+    ModifyMatrixBuilderRows(builder_Q, row, R.Rows());
   }
+
+  /**
+   *
+   * @param builder in which elements should be modified by rotation
+   * @param row and row-1 will be multiplied and modified
+   * @param cols size of builder because DenseMatrixBuilder does not
+   *             share methods .Cols or anything
+   */
+  private void ModifyMatrixBuilderRows(DenseMatrixBuilder builder, int row, int cols) {
+    for (int j = 0; j < cols; j++) {
+      DenseVectorBuilder vector = new DenseVectorBuilder(2);
+      vector.SetValue(0, builder.GetValue(row - 1, j));
+      vector.SetValue(1, builder.GetValue(row, j));
+
+      Vector res = VectorFactory.MatrixByVector(mat, vector.BuildVector());
+      builder.SetValue(row - 1, j, res.ValueAt(0));
+      builder.SetValue(row, j, res.ValueAt(1));
+    }
+  }
+
+  private Matrix Q;
+  private Matrix R;
+  private DenseMatrixBuilder builder_Q;
+  private DenseMatrixBuilder builder_R;
+  private Matrix mat; // rotation 2x2 matrix
 }
