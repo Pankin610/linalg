@@ -17,7 +17,7 @@ class GivensRotationTest {
   GivensRotation givens_rotation = new GivensRotation();
 
   @Test
-  void Decompose() {
+  void DecomposeNonSquareMatrix() {
     double[][] arr = {
       { 1.0, -1.0, 4.0 },
       { 1.0, 4.0, -2.0 },
@@ -25,26 +25,7 @@ class GivensRotationTest {
       { 1.0, -1.0, 0.0 }
     };
 
-    DenseMatrixBuilder dmb_a = new DenseMatrixBuilder(4, 3);
-    for (int i = 0; i < 4; i++)
-      for (int j = 0; j < 3; j++)
-        dmb_a.SetValue(i, j, arr[i][j]);
-
-    givens_rotation.Decompose(dmb_a.BuildMatrix());
-
-    Matrix Q = givens_rotation.GetQ();
-    Matrix R = givens_rotation.GetR();
-
-    Matrix id = MatrixFactory.DenseMultiply(Q, Q.Transpose());
-    Matrix res = MatrixFactory.DenseMultiply(Q, R);
-
-    Assertions.assertEquals(id.Rows(), id.Cols());
-    Assertions.assertEquals(arr.length, res.Rows());
-    Assertions.assertEquals(arr[0].length, res.Cols());
-
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 1e-10);
-    CheckUpperTriangularDelta(R, 1e-10);
-    CompareMatrixWithArrayDelta(arr, res, 1e-10);
+    DecomposeDoubleArray(arr);
   }
 
   @Test
@@ -55,55 +36,18 @@ class GivensRotationTest {
       { 0.0, 0.0, 1.0 }
     };
 
-    DenseMatrixBuilder dmb = new DenseMatrixBuilder(3, 3);
-    for (int i = 0; i < 3; i++)
-      for (int j = 0; j < 3; j++)
-        dmb.SetValue(i, j, arr[i][j]);
-
-    givens_rotation.Decompose(dmb.BuildMatrix());
-    Matrix Q = givens_rotation.GetQ();
-    Matrix R = givens_rotation.GetR();
-
-    Matrix id = MatrixFactory.DenseMultiply(Q, Q.Transpose());
-    Matrix res = MatrixFactory.DenseMultiply(Q, R);
-
-    Assertions.assertEquals(id.Rows(), id.Cols());
-    Assertions.assertEquals(arr.length, res.Rows());
-    Assertions.assertEquals(arr[0].length, res.Cols());
-
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Cols()), id, 1e-10);
-    CheckUpperTriangularDelta(R, 1e-10);
-    CompareMatrixWithArrayDelta(arr, res, 1e-10);
+    DecomposeDoubleArray(arr);
   }
 
   @Test
-  void DecomposeIZeroMatrix() {
+  void DecomposeZeroMatrix() {
     double[][] arr = {
       { 0.0, 0.0, 0.0 },
       { 0.0, 0.0, 0.0 },
       { 0.0, 0.0, 0.0 }
     };
 
-    DenseMatrixBuilder dmb = new DenseMatrixBuilder(3, 3);
-    for (int i = 0; i < 3; i++)
-      for (int j = 0; j < 3; j++)
-        dmb.SetValue(i, j, arr[i][j]);
-
-    givens_rotation.Decompose(dmb.BuildMatrix());
-
-    Matrix Q = givens_rotation.GetQ();
-    Matrix R = givens_rotation.GetR();
-
-    Matrix id = MatrixFactory.DenseMultiply(Q, Q.Transpose());
-    Matrix res = MatrixFactory.DenseMultiply(Q, R);
-
-    Assertions.assertEquals(id.Rows(), id.Cols());
-    Assertions.assertEquals(arr.length, res.Rows());
-    Assertions.assertEquals(arr[0].length, res.Cols());
-
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 1e-10);
-    CheckUpperTriangularDelta(R, 1e-10);
-    CompareMatrixWithArrayDelta(arr, res, 1e-10);
+    DecomposeDoubleArray(arr);
   }
 
   @Test
@@ -112,25 +56,7 @@ class GivensRotationTest {
       { 1.0, 2.0, 3.0 }
     };
 
-    DenseMatrixBuilder dmb = new DenseMatrixBuilder(1, 3);
-    for (int i = 0; i < 3; i++)
-      dmb.SetValue(0, i, arr[0][i]);
-
-    givens_rotation.Decompose(dmb.BuildMatrix());
-
-    Matrix Q = givens_rotation.GetQ();
-    Matrix R = givens_rotation.GetR();
-
-    Matrix id = MatrixFactory.DenseMultiply(Q, Q.Transpose());
-    Matrix res = MatrixFactory.DenseMultiply(Q, R);
-
-    Assertions.assertEquals(id.Rows(), id.Cols());
-    Assertions.assertEquals(arr.length, res.Rows());
-    Assertions.assertEquals(arr[0].length, res.Cols());
-
-    CompareMatrixWithMatrixDelta(IdentityMatrix(id.Rows()), id, 1e-10);
-    CheckUpperTriangularDelta(R, 1e-10);
-    CompareMatrixWithArrayDelta(arr, res, 1e-10);
+    DecomposeDoubleArray(arr);
   }
 
   @Test
@@ -141,6 +67,10 @@ class GivensRotationTest {
       { 0.0, 4.0, 3.0 }
     };
 
+    DecomposeDoubleArray(arr);
+  }
+  
+  void DecomposeDoubleArray(double[][] arr) {
     DenseMatrixBuilder dmb_a = new DenseMatrixBuilder(arr.length, arr[0].length);
     for (int i = 0; i < arr.length; i++)
       for (int j = 0; j < arr[0].length; j++)
