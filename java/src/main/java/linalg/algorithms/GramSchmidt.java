@@ -27,7 +27,6 @@ public class GramSchmidt implements QRDecomposition {
     } else {
       Q = MatrixFactory.IdentityMatrix(matrix.Rows());
       R = new DenseMatrixBuilder(matrix.Cols(), matrix.Cols()).BuildMatrix();
-
     }
   }
 
