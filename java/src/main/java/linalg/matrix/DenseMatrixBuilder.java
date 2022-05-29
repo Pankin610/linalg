@@ -13,6 +13,10 @@ public class DenseMatrixBuilder implements MatrixBuilder {
     mat_array_ = new double[rows][cols];
   }
 
+  public DenseMatrixBuilder(double[][] mat) {
+    mat_array_ = mat;
+  }
+
   // TODO extra methods and error-pruning
   @Override
   public void SetValue(int row, int col, double value) {

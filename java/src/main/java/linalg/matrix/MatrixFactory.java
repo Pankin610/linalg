@@ -58,7 +58,7 @@ public class MatrixFactory {
     return (DenseMatrix)builder.BuildMatrix();
   }
 
-  public static DenseMatrix SparseMultiply(SparseMatrix sparse, Matrix dense) {
+  public static DenseMatrix SparseByDenseMultiply(SparseMatrix sparse, Matrix dense) {
     if (sparse.Cols() != dense.Rows()) {
       throw new IllegalArgumentException("Matrix dimensions don't add up.");
     }
@@ -72,6 +72,22 @@ public class MatrixFactory {
       }
     });
     return (DenseMatrix)builder.BuildMatrix();
+  }
+
+  public static SparseMatrix SparseMultiply(SparseMatrix a, SparseMatrix b) {
+    if (a.Cols() != b.Rows()) {
+      throw new IllegalArgumentException("Matrix dimensions don't add up.");
+    }
+    COOMatrixBuilder builder = new COOMatrixBuilder(a.Rows(), b.Cols());
+    a.ForEachEntry(entry -> {
+      int row = entry.Row();
+      int col = entry.Col();
+      double value = entry.Value();
+      for (int i = 0; i < b.Cols(); i++) {
+        builder.SetValue(row, i, builder.GetValue(row, i) + value * b.ValueAt(col, i));
+      }
+    });
+    return (SparseMatrix)builder.BuildMatrix();
   }
 
   public static Matrix IdentityMatrix(int size) {
