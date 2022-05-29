@@ -8,18 +8,22 @@ import linalg.matrix.DenseMatrixBuilder;
 
 public class LUDecomposition{
 
-  Matrix L;      
-  Matrix U;  
-  Matrix Mat;
+  private Matrix L = null;      
+  private Matrix U = null;  
+  private Matrix Mat = null;
 
-  LUDecomposition (Matrix Mat){
+  public LUDecomposition (Matrix Mat){
     if(Mat.Cols() != Mat.Rows()){
       throw new IllegalArgumentException("Wrong matrix dimensions");
     }
     this.Mat = Mat;
   };
 
-  void ConstructionLU () {
+  public void Decompose(){
+    ConstructionLU();
+  }
+
+  private void ConstructionLU () {
     final int n = Mat.Rows();
 
     DenseMatrixBuilder LComponent = new DenseMatrixBuilder(n,n);
@@ -52,15 +56,21 @@ public class LUDecomposition{
 
     L = LComponent.BuildMatrix();
     U = UComponent.BuildMatrix();
-    for(int i=0;i<n;i++){
-      for(int j=0;j<n;j++){
-        System.out.println(L.ValueAt(i,j));
-      }
-    }
   }
 
-  double Determinant(){
-    ConstructionLU ();
+  public Matrix L(){
+    return L;
+  }
+
+  public Matrix U(){
+    return U;
+  }
+
+  public Matrix Mat(){
+    return Mat;
+  }
+
+  public double Determinant(){
     double res = 1;
     final int n = Mat.Rows();
         

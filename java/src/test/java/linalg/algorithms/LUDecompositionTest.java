@@ -24,16 +24,16 @@ class LUDecompositionTest {
 
     LUDecomposition lu_decomposition = new LUDecomposition(dmb.BuildMatrix());
 
-    Assertions.assertNull(lu_decomposition.L);
-    Assertions.assertNull(lu_decomposition.U);
-    Assertions.assertNotNull(lu_decomposition.Mat);
+    Assertions.assertNull(lu_decomposition.L());
+    Assertions.assertNull(lu_decomposition.U());
+    Assertions.assertNotNull(lu_decomposition.Mat());
 
-    Assertions.assertEquals(5, lu_decomposition.Mat.Rows());
-    Assertions.assertEquals(5, lu_decomposition.Mat.Cols());
+    Assertions.assertEquals(5, lu_decomposition.Mat().Rows());
+    Assertions.assertEquals(5, lu_decomposition.Mat().Cols());
 
     for (int i = 0; i < 5; i++)
       for (int j = 0; j < 5; j++)
-        Assertions.assertEquals(arr[i][j], lu_decomposition.Mat.ValueAt(i, j));
+        Assertions.assertEquals(arr[i][j], lu_decomposition.Mat().ValueAt(i, j));
   }
 
   @Test
@@ -49,7 +49,7 @@ class LUDecompositionTest {
         dmb.SetValue(i, j, arr[i][j]);
 
     try {
-      new LUDecomposition(dmb.BuildMatrix());
+      new LUDecomposition(dmb.BuildMatrix()).Decompose();
     } catch (IllegalArgumentException e) {
       return;
     }
@@ -70,8 +70,6 @@ class LUDecompositionTest {
       for (int j = 0; j < 4; j++)
         dmb.SetValue(i, j, arr[i][j]);
 
-    LUDecomposition lu_decomposition = new LUDecomposition(dmb.BuildMatrix());
-
     /*
      * Preparation of test above
      */
@@ -89,9 +87,9 @@ class LUDecompositionTest {
       {0, 0, 1, 2},
       {0, 0, 0, 3}
     };
-
+    LUDecomposition lu_decomposition = new LUDecomposition(dmb.BuildMatrix());
     try {
-      lu_decomposition.ConstructionLU();
+      lu_decomposition.Decompose();
     } catch (Exception e) {
       System.out.println(e.getMessage());
       Assertions.fail();
@@ -100,11 +98,11 @@ class LUDecompositionTest {
 
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
-        Assertions.assertEquals(L[i][j], lu_decomposition.L.ValueAt(i, j));
+        Assertions.assertEquals(L[i][j], lu_decomposition.L().ValueAt(i, j));
 
     for (int i = 0; i < 4; i++)
       for (int j = 0; j < 4; j++)
-        Assertions.assertEquals(U[i][j], lu_decomposition.U.ValueAt(i, j));
+        Assertions.assertEquals(U[i][j], lu_decomposition.U().ValueAt(i, j));
   }
 
   @Test
@@ -121,6 +119,7 @@ class LUDecompositionTest {
         dmb.SetValue(i, j, arr[i][j]);
 
     LUDecomposition lu_decomposition = new LUDecomposition(dmb.BuildMatrix());
+    lu_decomposition.Decompose();
 
     Assertions.assertEquals(24.0, lu_decomposition.Determinant());
   }
