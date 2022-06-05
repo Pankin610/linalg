@@ -57,7 +57,7 @@ public class MultithreadedAlgorithms {
 
     // Use the independantly computed rows to get the final product
     COOMatrixBuilder builder = new COOMatrixBuilder(a.Rows(), b.Cols());
-    for (int row = 0; row < a.Cols(); row++) {
+    for (int row = 0; row < a.Rows(); row++) {
       for (Map.Entry<Integer, Double> entry : row_futures.get(row).get().entrySet()) {
         builder.SetValue(row, entry.getKey(), entry.getValue());
       }
