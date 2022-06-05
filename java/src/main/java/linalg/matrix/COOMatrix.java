@@ -52,6 +52,26 @@ public class COOMatrix implements SparseMatrix {
     return entry_map_.size();
   }
 
+  @Override 
+  public boolean equals(Object o) {
+    if (!(o instanceof COOMatrix)) {
+      return false;
+    }
+
+    COOMatrix other = (COOMatrix)o;
+    if (other.Cols() != Cols() || other.Rows() != Rows()) {
+      return false;
+    }
+    for (int i = 0; i < Rows(); i++) {
+      for (int j = 0; j < Cols(); j++) {
+        if (Math.abs(ValueAt(i, j) - other.ValueAt(i, j)) > 1e-9) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   COOMatrix(Map<MatrixCoordinate, Double> map, int rows, int cols) {
     entry_map_ = map;
     rows_ = rows;
