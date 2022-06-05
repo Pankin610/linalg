@@ -100,6 +100,7 @@ public class StatisticsController {
  
     @FXML
     public void onCompareClicked(MouseEvent event){
+      errorLabel.setText("");
       if(thread!=null){
         thread.interrupt();
       }
