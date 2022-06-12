@@ -8,6 +8,7 @@ import linalg.matrix.MatrixFactory;
 
 import org.junit.jupiter.api.Assertions;
 import java.util.Collection;
+import java.util.concurrent.ExecutionException;
 
 public class TestingUtils {
   public static void CompareMatrixWithMatrixDelta(Matrix expected, Matrix matrix, double delta) {
@@ -54,7 +55,7 @@ public class TestingUtils {
     return IsWithin(a, b, tol) && IsWithin(a, b, tol);
   }
 
-  public static void QRDecomposeDoubleArray(double[][] arr, QRDecomposition decomposition, double delta) {
+  public static void QRDecomposeDoubleArray(double[][] arr, QRDecomposition decomposition, double delta) throws InterruptedException, ExecutionException {
     DenseMatrixBuilder dmb_a = new DenseMatrixBuilder(arr.length, arr[0].length);
     for (int i = 0; i < arr.length; i++)
       for (int j = 0; j < arr[0].length; j++)

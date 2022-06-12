@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.ExecutionException;
 
-class GivensRotationTest {
-  GivensRotation givens_rotation = new GivensRotation();
+class ConcurrentGivensRotationTest {
+  ConcurrentGivensRotation concurrent_givens_rotation = new ConcurrentGivensRotation();
 
   @Test
   void DecomposeNonSquareMatrix() throws InterruptedException, ExecutionException {
@@ -17,7 +17,7 @@ class GivensRotationTest {
       { 1.0, -1.0, 0.0 }
     };
 
-    QRDecomposeDoubleArray(arr, givens_rotation, 1e-10);
+    QRDecomposeDoubleArray(arr, concurrent_givens_rotation, 1e-10);
   }
 
   @Test
@@ -28,7 +28,7 @@ class GivensRotationTest {
       { 0.0, 0.0, 1.0 }
     };
 
-    QRDecomposeDoubleArray(arr, givens_rotation, 1e-10);
+    QRDecomposeDoubleArray(arr, concurrent_givens_rotation, 1e-10);
   }
 
   @Test
@@ -39,7 +39,7 @@ class GivensRotationTest {
       { 0.0, 0.0, 0.0 }
     };
 
-    QRDecomposeDoubleArray(arr, givens_rotation, 1e-10);
+    QRDecomposeDoubleArray(arr, concurrent_givens_rotation, 1e-10);
   }
 
   @Test
@@ -48,7 +48,7 @@ class GivensRotationTest {
       { 1.0, 2.0, 3.0 }
     };
 
-    QRDecomposeDoubleArray(arr, givens_rotation, 1e-10);
+    QRDecomposeDoubleArray(arr, concurrent_givens_rotation, 1e-10);
   }
 
   @Test
@@ -59,6 +59,6 @@ class GivensRotationTest {
       { 0.0, 4.0, 3.0 }
     };
 
-    QRDecomposeDoubleArray(arr, givens_rotation, 1e-10);
+    QRDecomposeDoubleArray(arr, concurrent_givens_rotation, 1e-10);
   }
 }
