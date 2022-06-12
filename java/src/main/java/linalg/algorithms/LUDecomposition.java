@@ -36,6 +36,9 @@ public class LUDecomposition{
       for(int k = i;k < n;k++){
         int sum= 0;
         for(int j = 0;j < i;j++){
+          if(Thread.interrupted()){
+            return;
+          }
           sum+=(LComponent.GetValue(i,j)*UComponent.GetValue(j,k));
         }
         UComponent.SetValue(i,k, Mat.ValueAt(i,k) - sum);
@@ -47,6 +50,9 @@ public class LUDecomposition{
         }else{
           int sum= 0;
           for(int j = 0;j < i;j++){
+            if(Thread.interrupted()){
+              return;
+            }
             sum+=(LComponent.GetValue(k,j)*UComponent.GetValue(j,i));
           }
           LComponent.SetValue(k,i, (Mat.ValueAt(k,i) - sum)/UComponent.GetValue(i,i));
