@@ -12,6 +12,7 @@ import linalg.matrix.MatrixBuilder;
 
 import java.lang.IllegalArgumentException;
 import java.util.function.Consumer;
+import java.util.ArrayList;
 
 public class MatrixFactory {
   public static Matrix Add(Matrix a, Matrix b) {
@@ -78,13 +79,17 @@ public class MatrixFactory {
     if (a.Cols() != b.Rows()) {
       throw new IllegalArgumentException("Matrix dimensions don't add up.");
     }
+
+    ArrayList<ArrayList<MatrixEntry>> entry_by_row = 
+      MatrixUtils.GetMatrixEntriesByRow(b);
     COOMatrixBuilder builder = new COOMatrixBuilder(a.Rows(), b.Cols());
     a.ForEachEntry(entry -> {
       int row = entry.Row();
       int col = entry.Col();
       double value = entry.Value();
-      for (int i = 0; i < b.Cols(); i++) {
-        builder.SetValue(row, i, builder.GetValue(row, i) + value * b.ValueAt(col, i));
+      for (MatrixEntry other_entry : entry_by_row.get(col)) {
+        builder.SetValue(row, other_entry.Col(), 
+                         builder.GetValue(row, other_entry.Col()) + value * other_entry.Value());
       }
     });
     return (SparseMatrix)builder.BuildMatrix();

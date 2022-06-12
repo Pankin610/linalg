@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class DenseMatrixBuilderTest {
-
   @Test
   void SetValueForSmallMatrixWithExceptionHandlingWhileCreatingArrayWithIntegers() {
     String expected_message = "Wrong matrix dimensions";

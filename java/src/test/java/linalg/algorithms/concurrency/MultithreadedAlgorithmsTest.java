@@ -29,7 +29,6 @@ class MultithreadedAlgorithmsTest {
 
     try {
       DenseMatrix res = MultithreadedAlgorithms.DenseMatrixProduct(dm1, dm2);
-      System.out.println(res);
       Assertions.assertEquals(res, expected_res);
     }
     catch(Exception e) {
@@ -67,7 +66,72 @@ class MultithreadedAlgorithmsTest {
 
     try {
       DenseMatrix res = MultithreadedAlgorithms.DenseMatrixProduct(dm1, dm2);
-      System.out.println(res);
+      Assertions.assertEquals(res, expected_res);
+    }
+    catch(Exception e) {
+      Assertions.fail();
+    }
+  }
+
+  @Test
+  public void BasicSparseMultiplication() {
+    double[][] arr1 = {
+      {2, 0, 0},
+      {0, 2, 0},
+      {0, 0, 2}
+    };
+    double[][] arr2 = {
+      {1, 2, 3},
+      {7, 6, 5},
+      {8, 9, 10}
+    };
+    double[][] arr3 = {
+      {2, 4, 6},
+      {14, 12, 10},
+      {16, 18, 20}
+    };
+
+    Matrix dm1 = new COOMatrixBuilder(arr1).BuildMatrix();
+    Matrix dm2 = new COOMatrixBuilder(arr2).BuildMatrix();
+    Matrix expected_res = new COOMatrixBuilder(arr3).BuildMatrix();
+    try {
+      SparseMatrix res = MultithreadedAlgorithms.SparseMatrixProduct(dm1, dm2);
+      Assertions.assertEquals(res, expected_res);
+    }
+    catch(Exception e) {
+      Assertions.fail();
+    }
+  }
+
+  @Test
+  public void HarderSparseMultiplication() {
+    double[][] arr1 = {
+      {1, 2, 3},
+      {5, 0, 0},
+      {1, 0, 5},
+      {0, 4, 5},
+      {1, 5, 0}
+    };
+
+    double[][] arr2 = {
+      {0, 0, 0, 0, 0},
+      {5, 3, 1, 0, 1},
+      {6, 0, 1, 0, 3},
+    };
+
+    double[][] arr3 = {
+      {28, 6, 5, 0, 11},
+      {0, 0, 0, 0, 0},
+      {30, 0, 5, 0, 15},
+      {50, 12, 9, 0, 19},
+      {25, 15, 5, 0, 5}
+    };
+    
+    Matrix dm1 = new COOMatrixBuilder(arr1).BuildMatrix();
+    Matrix dm2 = new COOMatrixBuilder(arr2).BuildMatrix();
+    Matrix expected_res = new COOMatrixBuilder(arr3).BuildMatrix();
+    try {
+      SparseMatrix res = MultithreadedAlgorithms.SparseMatrixProduct(dm1, dm2);
       Assertions.assertEquals(res, expected_res);
     }
     catch(Exception e) {
