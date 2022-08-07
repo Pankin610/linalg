@@ -4,6 +4,7 @@ import java.time.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import linalg.matrix.Matrix;
+import linalg.algorithm.comp.TimeMeasureUtil;
 
 public class AlgorithmStats {
   
@@ -54,16 +55,16 @@ public class AlgorithmStats {
     }
   }
 
-  public static AlgorithmStats GetAlgoStats(Supplier<Matrix> data, Consumer<Matrix> algo, int num_runs) {
-    Clock clock = Clock.systemDefaultZone();
+  public static AlgorithmStats GetAlgoStats(
+    Supplier<Matrix> data, 
+    Consumer<Matrix> algo, 
+    int num_runs 
+  ) {
     AlgorithmStats stats = new AlgorithmStats();
 
     for (int i = 0; i < num_runs; i++) {
-      Instant start = clock.instant();
-      algo.accept(data.get());
-      Instant end = clock.instant();
-
-      stats.AddRun(Duration.between(start, end));
+      Matrix mat = data.get();
+      stats.AddRun(TimeMeasureUtil.MeasureTime(mat, algo));
     }
     return stats;
   }
