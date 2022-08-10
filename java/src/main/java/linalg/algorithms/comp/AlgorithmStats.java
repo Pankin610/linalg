@@ -55,15 +55,15 @@ public class AlgorithmStats {
     }
   }
 
-  public static AlgorithmStats GetAlgoStats(
-    Supplier<Matrix> data, 
-    Consumer<Matrix> algo, 
+  public static <T extends Matrix> AlgorithmStats GetAlgoStats(
+    Supplier<T> data, 
+    Consumer<T> algo, 
     int num_runs 
-  ) {
+  ) throws Exception{
     AlgorithmStats stats = new AlgorithmStats();
 
     for (int i = 0; i < num_runs; i++) {
-      Matrix mat = data.get();
+      T mat = data.get();
       stats.AddRun(TimeMeasureUtil.MeasureTime(mat, algo));
     }
     return stats;

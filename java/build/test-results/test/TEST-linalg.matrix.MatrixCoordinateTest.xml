@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="linalg.matrix.MatrixCoordinateTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-08-10T09:12:53" hostname="Daniil" time="0.007">
+  <properties/>
+  <testcase name="NotEqualsSimpleTest()" classname="linalg.matrix.MatrixCoordinateTest" time="0.002"/>
+  <testcase name="ColMethodTest()" classname="linalg.matrix.MatrixCoordinateTest" time="0.0"/>
+  <testcase name="HashCodeSimpleTest()" classname="linalg.matrix.MatrixCoordinateTest" time="0.001"/>
+  <testcase name="RowMethodTest()" classname="linalg.matrix.MatrixCoordinateTest" time="0.0"/>
+  <testcase name="EqualsSimpleTest()" classname="linalg.matrix.MatrixCoordinateTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

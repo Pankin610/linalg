@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="linalg.algorithms.HouseholderTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-08-10T09:12:53" hostname="Daniil" time="0.01">
+  <properties/>
+  <testcase name="Decompose()" classname="linalg.algorithms.HouseholderTest" time="0.005"/>
+  <testcase name="DecomposeIZeroMatrix()" classname="linalg.algorithms.HouseholderTest" time="0.001"/>
+  <testcase name="DecomposeIdentityMatrix()" classname="linalg.algorithms.HouseholderTest" time="0.001"/>
+  <testcase name="DecomposeVector()" classname="linalg.algorithms.HouseholderTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

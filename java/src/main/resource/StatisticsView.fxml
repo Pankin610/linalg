@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ChoiceBox fx:id="algorithmChoiceBox" layoutX="44.0" layoutY="148.0" prefWidth="150.0" />
       <Label layoutX="47.0" layoutY="124.0" text="Choose algorithm" />
@@ -14,7 +14,7 @@
       <Label layoutX="46.0" layoutY="50.0" text="choose type of Matrix " />
       <Button layoutX="36.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#onBackClicked" text="Back" />
       <Label layoutX="251.0" layoutY="81.0" text="average run time" />
-      <Button layoutX="80.0" layoutY="287.0" mnemonicParsing="false" onMouseClicked="#onCompareClicked" text="Compare" />
+      <Button layoutX="68.0" layoutY="303.0" mnemonicParsing="false" onMouseClicked="#onCompareClicked" text="compare to" />
       <Label fx:id="averageTime" layoutX="269.0" layoutY="117.0" prefHeight="31.0" prefWidth="77.0" />
       <TextField fx:id="matrixSize" layoutX="37.0" layoutY="218.0" />
       <Label layoutX="87.0" layoutY="192.0" text="Matrix size" />
@@ -23,5 +23,14 @@
       <Label fx:id="bestRun" layoutX="492.0" layoutY="117.0" prefHeight="31.0" prefWidth="77.0" />
       <Label layoutX="676.0" layoutY="81.0" text="worst run" />
       <Label fx:id="worstRun" layoutX="676.0" layoutY="117.0" prefHeight="31.0" prefWidth="77.0" />
+      <Label fx:id="averageTextLabel" layoutX="243.0" layoutY="342.0" text="average run time" />
+      <Label fx:id="bestRunTextLabel" layoutX="503.0" layoutY="342.0" text="best run" />
+      <Label fx:id="worstRunTextLabel" layoutX="676.0" layoutY="342.0" text="worst run" />
+      <Button layoutX="95.0" layoutY="267.0" mnemonicParsing="false" onMouseClicked="#onRunClicked" text="run" />
+      <Label fx:id="secondAverageTime" layoutX="279.0" layoutY="276.0" prefHeight="31.0" prefWidth="77.0" />
+      <Label fx:id="secondBestRun" layoutX="492.0" layoutY="284.0" prefHeight="31.0" prefWidth="77.0" />
+      <Label fx:id="secondWorstRun" layoutX="676.0" layoutY="269.0" prefHeight="31.0" prefWidth="77.0" />
+      <ChoiceBox fx:id="secondChoiceBox" layoutX="44.0" layoutY="380.0" prefWidth="150.0" />
+      <Label layoutX="31.0" layoutY="342.0" text="Choose second algorithm" />
    </children>
 </Pane>

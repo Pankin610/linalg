@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="linalg.algorithms.eigen.EigenUtilsTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-08-10T09:12:53" hostname="Daniil" time="0.004">
+  <properties/>
+  <testcase name="DiagonalMatrixWithDifferentVals()" classname="linalg.algorithms.eigen.EigenUtilsTest" time="0.003"/>
+  <testcase name="BasicDiagonalMatrix()" classname="linalg.algorithms.eigen.EigenUtilsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
