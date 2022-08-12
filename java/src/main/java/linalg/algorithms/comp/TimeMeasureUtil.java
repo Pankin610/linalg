@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import linalg.matrix.Matrix;
 
 public class TimeMeasureUtil {
-  public static Duration MeasureTime(Matrix mat, Consumer<Matrix> algo) {
+  public static  <T extends Matrix> Duration MeasureTime(T mat, Consumer<T> algo) {
     Instant start = Instant.now();
     algo.accept(mat);
     Instant end = Instant.now(); 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="linalg.algorithms.GivensRotationTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2022-08-10T09:12:53" hostname="Daniil" time="0.024">
+  <properties/>
+  <testcase name="DecomposeZeroMatrix()" classname="linalg.algorithms.GivensRotationTest" time="0.008"/>
+  <testcase name="DecomposeWikipediaExample()" classname="linalg.algorithms.GivensRotationTest" time="0.004"/>
+  <testcase name="DecomposeIdentityMatrix()" classname="linalg.algorithms.GivensRotationTest" time="0.002"/>
+  <testcase name="DecomposeVector()" classname="linalg.algorithms.GivensRotationTest" time="0.001"/>
+  <testcase name="DecomposeNonSquareMatrix()" classname="linalg.algorithms.GivensRotationTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
