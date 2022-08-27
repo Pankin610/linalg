@@ -35,9 +35,11 @@ import java.util.function.Consumer;
 
 public class StatisticsController {
 
-  Scene backScene;
-
-  ArrayList<Thread> threads;
+  private Scene backScene;
+  private ArrayList<Thread> threads;
+  private Label[] averageTimeArray;
+  private Label[] worstRunArray;
+  private Label[] bestRunArray;
 
   @FXML
   private ResourceBundle resources;
@@ -90,8 +92,8 @@ public class StatisticsController {
   StatisticsController(Scene backScene) {
     this.backScene = backScene;
   }
-  
-  private <T extends Matrix> void runThread(Supplier<T> data, Consumer<T> algo, ChoiceBox choiceBox) {
+
+  private <T extends Matrix> void runThread(Supplier<T> data, Consumer<T> algo, int i) {
     Thread thread = new Thread(() -> {
       try{
         AlgorithmStats algorithmStats = AlgorithmStats.GetAlgoStats(data, algo,10);
@@ -99,11 +101,7 @@ public class StatisticsController {
           return;
         }
         Platform.runLater(() -> {
-          if(choiceBox == algorithmChoiceBox){
-            setFirstLabels(algorithmStats);
-          }else{
-            setSecondLabels(algorithmStats);
-          }
+          setLabels(algorithmStats, i);
         });
       }catch(Exception ignore){}
     });
@@ -111,38 +109,21 @@ public class StatisticsController {
     thread.start();
   }
 
-  private void setFirstLabels(AlgorithmStats algorithmStats) {
+  private void setLabels(AlgorithmStats algorithmStats, int i) {
     Duration duration;
     long seconds, mseconds;
     duration = algorithmStats.AverageRunTime();
     seconds = duration.getSeconds();
     mseconds = duration.toMillis() - seconds*1000;
-    averageTime.setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
+    averageTimeArray[i].setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
     duration = algorithmStats.BestRun();
     seconds = duration.getSeconds();
     mseconds = duration.toMillis() - seconds*1000;
-    bestRun.setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
+    bestRunArray[i].setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
     duration = algorithmStats.WorstRun();
     seconds = duration.getSeconds();
     mseconds = duration.toMillis() - seconds*1000;
-    worstRun.setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
-  }
-
-  private void setSecondLabels(AlgorithmStats algorithmStats) {
-    Duration duration;
-    long seconds, mseconds;
-    duration = algorithmStats.AverageRunTime();
-    seconds = duration.getSeconds();
-    mseconds = duration.toMillis() - seconds*1000;
-    secondAverageTime.setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
-    duration = algorithmStats.BestRun();
-    seconds = duration.getSeconds();
-    mseconds = duration.toMillis() - seconds*1000;
-    secondBestRun.setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
-    duration = algorithmStats.WorstRun();
-    seconds = duration.getSeconds();
-    mseconds = duration.toMillis() - seconds*1000;
-    secondWorstRun.setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
+    worstRunArray[i].setText(Long.toString(seconds) + "s " + Long.toString(mseconds) + "ms");
   }
   
   private void buttonClicked(ChoiceBox choiceBox){
@@ -155,26 +136,27 @@ public class StatisticsController {
       errorLabel.setText("Wrong input!");
       return;
     } 
+    int i = choiceBox == algorithmChoiceBox ? 0 : 1;
     Supplier<Matrix> data = typeChoisceBox.getValue() == "Dense" ? () -> RandomMatrices.RandomDenseMatrix(sz, sz) : 
       () -> RandomMatrices.RandomSparseMatrix(sz, sz, sz);
     Supplier<SparseMatrix> dataSparse = () -> RandomMatrices.RandomSparseMatrix(sz, sz, sz);
     if(choiceBox.getValue() == "LUDecomposition"){
-      runThread(data, m -> new LUDecomposition(m).Decompose(), choiceBox);
+      runThread(data, m -> new LUDecomposition(m).Decompose(), i);
     }
     if(choiceBox.getValue() == "QRGramSchmidt"){
-      runThread(data, m -> new GramSchmidt().Decompose(m), choiceBox);
+      runThread(data, m -> new GramSchmidt().Decompose(m), i);
     }
     if(choiceBox.getValue() == "HouseHolder"){
-      runThread(data, m -> new Householder().Decompose(m), choiceBox);
+      runThread(data, m -> new Householder().Decompose(m), i);
     }
     if(choiceBox.getValue() == "QRGivensRotation"){
-      runThread(data, m -> new GivensRotation().Decompose(m), choiceBox);
+      runThread(data, m -> new GivensRotation().Decompose(m), i);
     }
     if(choiceBox.getValue() == "Matrix multiplication"){
       if(typeChoisceBox.getValue() == "Dense"){
-        runThread(data, m -> new MatrixFactory().DenseMultiply(m, m), choiceBox);
+        runThread(data, m -> new MatrixFactory().DenseMultiply(m, m), i);
       }else{
-        runThread(dataSparse, m -> new MatrixFactory().SparseMultiply(m, m), choiceBox);
+        runThread(dataSparse, m -> new MatrixFactory().SparseMultiply(m, m), i);
       }
     }
     if(choiceBox.getValue() == "Concurrent matrix multiplication"){
@@ -183,19 +165,17 @@ public class StatisticsController {
           try{
             new MultithreadedAlgorithms().DenseMatrixProduct(m, m);
           }catch(Exception ignore){};
-        },
-        choiceBox);
+        }, i);
       } else {
         runThread(dataSparse, m -> {
           try{
             new MultithreadedAlgorithms().SparseMatrixProduct(m, m);
           }catch(Exception ignore) {};
-        }, 
-        choiceBox);
+        }, i);
       }
     }
   }
-
+  
   private void clearLabels() {
     averageTime.setText("");
     bestRun.setText("");
@@ -245,7 +225,16 @@ public class StatisticsController {
     averageTextLabel.setVisible(false);
     bestRunTextLabel.setVisible(false);
     worstRunTextLabel.setVisible(false);
-
+    averageTimeArray = new Label[2];
+    worstRunArray = new Label[2];
+    bestRunArray = new Label[2];
+    averageTimeArray[0] = averageTime;
+    averageTimeArray[1] = secondAverageTime;
+    worstRunArray[0] = worstRun;
+    worstRunArray[1] = secondWorstRun;
+    bestRunArray[0] = bestRun;
+    bestRunArray[1] = secondBestRun;
+    
     typeChoisceBox.getItems().addAll("Dense", "Sparse");
     typeChoisceBox.setValue("Dense");
     algorithmChoiceBox.getItems().addAll("QRGramSchmidt", "LUDecomposition", "HouseHolder","QRGivensRotation", 

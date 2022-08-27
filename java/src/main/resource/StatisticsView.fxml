@@ -27,9 +27,9 @@
       <Label fx:id="bestRunTextLabel" layoutX="503.0" layoutY="342.0" text="best run" />
       <Label fx:id="worstRunTextLabel" layoutX="676.0" layoutY="342.0" text="worst run" />
       <Button layoutX="95.0" layoutY="267.0" mnemonicParsing="false" onMouseClicked="#onRunClicked" text="run" />
-      <Label fx:id="secondAverageTime" layoutX="279.0" layoutY="276.0" prefHeight="31.0" prefWidth="77.0" />
-      <Label fx:id="secondBestRun" layoutX="492.0" layoutY="284.0" prefHeight="31.0" prefWidth="77.0" />
-      <Label fx:id="secondWorstRun" layoutX="676.0" layoutY="269.0" prefHeight="31.0" prefWidth="77.0" />
+      <Label fx:id="secondAverageTime" layoutX="269.0" layoutY="377.0" prefHeight="31.0" prefWidth="77.0" />
+      <Label fx:id="secondBestRun" layoutX="492.0" layoutY="377.0" prefHeight="31.0" prefWidth="77.0" />
+      <Label fx:id="secondWorstRun" layoutX="668.0" layoutY="377.0" prefHeight="31.0" prefWidth="77.0" />
       <ChoiceBox fx:id="secondChoiceBox" layoutX="44.0" layoutY="380.0" prefWidth="150.0" />
       <Label layoutX="31.0" layoutY="342.0" text="Choose second algorithm" />
    </children>
