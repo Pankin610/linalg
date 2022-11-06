@@ -7,6 +7,7 @@
 #include <exception>
 #include <iostream>
 #include <string>
+#include <omp.h>
 
 
 void checkQR(
@@ -92,6 +93,21 @@ TEST(QR_Tests, ParallelGivensTest) {
   }
 }
 
+TEST(QR_Tests, OMPGivensTest) {
+  linalg::Matrix<double> mat = {
+    {0.8147, 0.0975, 0.1576},
+    {0.9058, 0.2785, 0.9706},
+    {0.1270, 0.5469, 0.9572},
+    {0.9134, 0.9575, 0.4854},
+    {0.6324, 0.9649, 0.8003}
+  };
+
+  for (int i = 0; i < 100; i++) {
+    linalg::OpenMPGivensRotations<double> decomp(mat);
+    checkQR(&decomp, mat);
+  }
+}
+
 TEST(QR_Tests, BigGivensTest) {
   linalg::util::RandomScalarGen<double> gen;
   auto mat = linalg::util::getRandomMatrix<double>(200, 200, gen);
@@ -104,4 +120,11 @@ TEST(QR_Tests, BigParallelGivensTest) {
   auto mat = linalg::util::getRandomMatrix<double>(200, 200, gen);
 
   linalg::ParallelGivensRotations<double> decomp(mat);
+}
+
+TEST(QR_Tests, BigOpenMPGivensTest) {
+  linalg::util::RandomScalarGen<double> gen;
+  auto mat = linalg::util::getRandomMatrix<double>(200, 200, gen);
+
+  linalg::OpenMPGivensRotations<double> decomp(mat);
 }

@@ -10,6 +10,7 @@
 #include <vector>
 #include <iostream>
 #include <future>
+#include <omp.h>
 
 namespace linalg {
 
@@ -84,6 +85,12 @@ template<typename T>
 class ParallelGivensRotations : public GivensRotationsQR<T> {
  public:
   ParallelGivensRotations(const Matrix<T>& mat);
+};
+
+template<typename T>
+class OpenMPGivensRotations : public GivensRotationsQR<T> {
+ public:
+  OpenMPGivensRotations(const Matrix<T>& mat);
 };
 
 template<typename T>
@@ -207,5 +214,64 @@ ParallelGivensRotations<T>::ParallelGivensRotations(const Matrix<T>& mat) :
     this->applyRotationOnQ(rot);
   }
 }
+
+template<typename T>
+OpenMPGivensRotations<T>::OpenMPGivensRotations(const Matrix<T>& mat) : 
+  GivensRotationsQR<T>(mat) 
+{
+  typedef typename GivensRotationsQR<T>::GivensRotation GivensRotation;
+  std::vector<GivensRotation> rotation_list;
+  Matrix<T>& R = this->getCurR();
+
+  // Last unprocessed row for each column
+  std::vector<int> cur_row(mat.cols(), R.rows() - 1);
+  // How many columns are being worked on
+  std::vector<int> in_process = {0};
+  // Cells per one run.
+  int block_size = 4;
+
+  auto process_cell = [&](int i, int j){
+    if (util::isNear(R[i][j], 0.0, 1e-14)) {
+      return;
+    }
+
+    auto rotation = GivensRotation(R, i, j);
+    this->applyRotationOnR(rotation);
+        
+    #pragma omp critical
+      rotation_list.emplace_back(std::move(rotation));
+  };
+
+  auto move_cols = [&](int block) {
+    #pragma omp parallel for num_threads(8)
+    for (int col : in_process) {
+      int target = cur_row[col] - block;
+      for (; cur_row[col] > target && cur_row[col] > col; cur_row[col]--) {
+        process_cell(cur_row[col], col);
+      }
+    }
+  };
+
+  while(!in_process.empty()) {
+    move_cols(block_size);
+    if (in_process.back() + 1 < mat.cols()) {
+      move_cols(1);
+      in_process.push_back(in_process.back() + 1);
+    }
+    for (int i = 0; i < in_process.size(); i++) {
+      int col = in_process[i];
+      if (cur_row[col] == col) {
+        in_process.erase(in_process.begin() + i);
+        i--;
+      }
+    }
+  }
+
+  std::reverse(rotation_list.begin(), rotation_list.end());
+  for (auto& rot : rotation_list) {
+    this->applyRotationOnQ(rot);
+  }
+}
+
 
 }

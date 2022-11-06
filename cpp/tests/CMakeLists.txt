@@ -8,6 +8,9 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(gtest)
 
+
+find_package(OpenMP REQUIRED)
+
 add_executable(
   unit_tests
   matrix_test.cpp
@@ -21,6 +24,7 @@ add_executable(
 target_link_libraries(
   unit_tests
   gtest_main
+  OpenMP::OpenMP_CXX
 )
 
 # automatic discovery of unit tests
