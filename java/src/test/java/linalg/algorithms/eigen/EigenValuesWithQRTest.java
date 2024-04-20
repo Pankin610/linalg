@@ -10,10 +10,11 @@ import linalg.algorithms.GramSchmidt;
 import static linalg.algorithms.TestingUtils.SameDoubleCollections;
 
 import java.lang.IllegalArgumentException;
+import java.util.concurrent.ExecutionException;
 
 class EigenValuesWithQRTest {
   @Test
-  public void BasicDiagonalMatrix() {
+  public void BasicDiagonalMatrix() throws InterruptedException, ExecutionException {
     double[][] arr = {
       { 2.0, 0.0, 0.0 },
       { 0.0, 3.0, 0.0 },
@@ -37,7 +38,7 @@ class EigenValuesWithQRTest {
   }
 
   @Test
-  public void BasicMatrix() {
+  public void BasicMatrix() throws InterruptedException, ExecutionException {
     double[][] arr = {
       { -5.0, 2.0 },
       { -7.0, 4.0 }

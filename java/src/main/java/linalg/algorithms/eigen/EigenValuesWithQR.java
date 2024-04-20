@@ -5,6 +5,7 @@ import linalg.algorithms.QRDecomposition;
 import linalg.algorithms.eigen.EigenValuesComputer;
 import java.util.Collection;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 // This class is immutable
 public class EigenValuesWithQR implements EigenValuesComputer {
@@ -19,7 +20,7 @@ public class EigenValuesWithQR implements EigenValuesComputer {
   }
 
   @Override
-  public Collection<Double> GetEigenValues(Matrix mat) {
+  public Collection<Double> GetEigenValues(Matrix mat) throws InterruptedException, ExecutionException {
     Matrix cur_mat = mat;
     int max_iter = max_iter_;
     // Until the matrix isn't converged we get its QR and assign it to R*Q

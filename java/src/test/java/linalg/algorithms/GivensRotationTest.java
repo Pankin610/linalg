@@ -3,11 +3,13 @@ package linalg.algorithms;
 import static linalg.algorithms.TestingUtils.QRDecomposeDoubleArray;
 import org.junit.jupiter.api.Test;
 
+import java.util.concurrent.ExecutionException;
+
 class GivensRotationTest {
   GivensRotation givens_rotation = new GivensRotation();
 
   @Test
-  void DecomposeNonSquareMatrix() {
+  void DecomposeNonSquareMatrix() throws InterruptedException, ExecutionException {
     double[][] arr = {
       { 1.0, -1.0, 4.0 },
       { 1.0, 4.0, -2.0 },
@@ -19,7 +21,7 @@ class GivensRotationTest {
   }
 
   @Test
-  void DecomposeIdentityMatrix() {
+  void DecomposeIdentityMatrix() throws InterruptedException, ExecutionException {
     double[][] arr = {
       { 1.0, 0.0, 0.0 },
       { 0.0, 1.0, 0.0 },
@@ -30,7 +32,7 @@ class GivensRotationTest {
   }
 
   @Test
-  void DecomposeZeroMatrix() {
+  void DecomposeZeroMatrix() throws InterruptedException, ExecutionException {
     double[][] arr = {
       { 0.0, 0.0, 0.0 },
       { 0.0, 0.0, 0.0 },
@@ -41,7 +43,7 @@ class GivensRotationTest {
   }
 
   @Test
-  void DecomposeVector() {
+  void DecomposeVector() throws InterruptedException, ExecutionException {
     double[][] arr = {
       { 1.0, 2.0, 3.0 }
     };
@@ -50,7 +52,7 @@ class GivensRotationTest {
   }
 
   @Test
-  void DecomposeWikipediaExample() {
+  void DecomposeWikipediaExample() throws InterruptedException, ExecutionException {
     double[][] arr = {
       { 6.0, 5.0, 0.0 },
       { 5.0, 1.0, 4.0 },
